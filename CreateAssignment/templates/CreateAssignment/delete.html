@@ -1,0 +1,19 @@
+
+<title>Delete</title>
+
+{% block content %}
+<div id="question_box1" class=question_box>
+    <div class="top">Delete Question </div>
+    <div class="main_box" id="main_box">
+        <p class="question">Are you sure you want to delete this question?</p>
+        <form method="POST" class="form_group">
+            {% csrf_token %}
+                <div class="options_section">
+                    <div class="choose">
+                    <button class="btc botonc" type="submit"><i class='bx bxs-trash-alt'></i> Delete</button>
+                    <a class="btc botonc" id = "back_btn" href="../"><i class='bx bx-x'></i> Cancel</a>
+                         </div>
+                </div>
+        </form>
+    </div>
+    {% endblock content %}

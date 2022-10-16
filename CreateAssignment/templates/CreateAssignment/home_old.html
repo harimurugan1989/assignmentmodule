@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Document</title>
+<style>
+ table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+h1 {text-align: center;}
+</style>
+</head>
+<body>
+    <form method="POST">
+    {% csrf_token %}
+    {% if messages %}
+        {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <h1>Create your own Assignment</h1>
+    {{use}}
+     <table class="center">
+    <tr><td>Course Name</td><td><input type="text" name="course_name">{{create.course_name}}</td></tr>
+    <tr><td>Assignment Name</td><td><input type="text" name="assignment_name"></td></tr>
+    <tr><td>Number of submissions allowed</td><td><input type="number" name="no_of_submissions"></td></tr>
+    <tr><td>Start Date and Time </td><td><input type="datetime-local" name="start"></td></tr>
+    <tr><td>First Submission Date and Time</td><td><input type="datetime-local" name="first_sub_time"></td></tr>
+    <tr><td>Extend deadline with peanlty?</td><td><input type="checkbox" name="extend"></input></td></tr>
+    <tr><td>Second Submission Date and Time </td><td><input type="datetime-local" name="second_sub_time"></td></tr>
+    <tr><td>Percentage penalty for late submission </td><td><input type="number" name="perc_penalty"></td></tr>
+    <tr><td>Result Date and Time</td><td><input type="datetime-local" name="result_time"></td></tr>
+    <tr><td>Notification after closing</td><td><select id="notif" name = "notif">
+        <option id="Y" value="y" selected >Yes</option>
+        <option id="N" value="n">No</option>
+    </select></td></tr>
+    <tr><td>Negative marking </td><td><select id="neg_mark" name = "neg_mark">
+        <option id="Y" value="y" selected >Yes</option>
+        <option id="N" value="ns">No</option>
+    </select></td></tr>
+    <tr><td>Facial Recognition </td><td><select id="face_rec" name = "face_rec">
+        <option id="Y" value="y" selected >Yes</option>
+        <option id="N" value="n">No</option>
+    </select></td></tr>
+    <tr><td>Result announcement type </td><td><select id="res_anno" name = "res_anno">
+        <option id="Ins" value="ins" selected >Instantaneous</option>
+        <option id="Immf" value="immf">Immediately after first submission time</option>
+        <option id="Imms" value="imms" selected >Immediately after second submission time</option>
+        <option id="Res" value="res">At the result time</option>
+    </select></td></tr>
+    <tr><td><input type="submit" value="Create Assignment"></td></tr>
+    
+</table>
+</form>
+    
+</body>
+</html>

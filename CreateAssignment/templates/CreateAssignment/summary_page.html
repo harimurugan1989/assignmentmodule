@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aim2Crack-Assignment</title>
+</head>
+
+<script>
+    function copyurl(text) {
+    var inputc = document.body.appendChild(document.createElement("input"));
+    inputc.value = window.location.href;
+    inputc.focus();
+    inputc.select();
+    document.execCommand('copy');
+    inputc.parentNode.removeChild(inputc);
+    alert("URL Copied.");
+    }
+    </script>
+
+<body>
+    <div class="alert">
+    
+        {%for message in messages%}
+        {%if message%}
+        {{message}}
+        {%endif%}
+        {%endfor%}
+        </div>
+
+    {{assign.assignment_name}}
+
+Total number of questions: {{Qtot}}
+    
+{%for ques in  questions%}
+    <!-- <div class="tab {%if forloop.counter0 == 0 %}active{% endif %}"> -->
+        <!-- <ul>     -->
+                {{ques.des1}}<br>
+                {{ques.ques1}}<br>
+                {{ques.exp1}}<br>
+
+                <div>
+                    <img class="questionimg" src="./../../../media/{{ques.photo1}}" alt="no image" height="300" width="300">
+                </div>
+                <a href="./deletequestion/{{ques.id}}" class="bt boton">Delete</a>
+                 <a href="./editquestion/{{ques.id}}" class="bt boton2">Edit</a>
+        <!-- </ul> -->
+    <!-- </div>  -->
+{%endfor%}
+
+        
+    <a href='./addquestion' id="addquestion">
+    <i class='bx bxs-edit-alt'></i>
+    <p>Add QUESTIONS</p></a>
+
+    <a href='./instructions' id="instructions">
+    <i class='bx bxs-edit-alt'></i>
+    <p>Add Instructions</p></a>
+    <p class="instructive_text2">These instructions will be shown to the student before start of exam.</p>
+    <a href='./settings' id="settings">
+        <i class='bx bxs-edit-alt'></i>
+        <p>settings</p></a>
+
+        <button onclick="copyurl()"</i>Copy link</button>
+
+
+
+      
+</body>
+</html>

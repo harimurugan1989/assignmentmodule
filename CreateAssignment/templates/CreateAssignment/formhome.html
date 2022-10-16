@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title>Document</title>
+<style>
+ table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+h1 {text-align: center;}
+</style>
+<!-- <script>
+
+  var count = 1;
+  var content = "R" + count;
+  var lname = "ch" + count;
+  var boxname = "x" + count;
+  
+  function changeHTML() {
+  
+  }
+  // var allInputs = document.querySelectorAll('form > input');
+  // var Input = document.getElementById('q');
+  function addInput(e) {
+    const Input = document.getElementById('q');
+    Input.setAttribute(`value`, `${Input.value} ${content}`);
+    count++;
+    document.getElementById("form").innerHTML +=
+      "<label id=" + lname + " for=" + boxname + '>' + content + '</label><input type="text" id=' + boxname + ' placeholder="Minimum" required/><input type="text" placeholder="Maximum" required/><br>';
+    content = "R" + count;
+    lname = "ch" + count;
+  }
+  
+  function addimg() {
+    document.getElementById("form").innerHTML +=
+      '<br/><label for="myfile">Select a file: </label><input type="file" id="myfile" name="myfile"><br>';
+  }
+  
+  function addq() {
+    document.getElementById("responce").innerHTML +=
+      '<div id="dropmenu"><label for= "drop"> Select:</label><select name="drop" id="drop"><option value="MCQ">Objective Type</option><option value="Numerical">Numerical</option><option value="Multiplecorrect">Multiple Correct</option></select required ></div ><div id="markfield"><label for="marks">Marks: </label><input type="text" id="marks" /><button id="sub">Enter</button></div><div id="addition"></div><div id="opt"></div>'
+    document.getElementById("sub").addEventListener("click", function () {
+      var v = document.getElementById("drop");
+      var e = v.value;
+      if (e == "MCQ") {
+        document.getElementById("addition").innerHTML = '<label for="objectivequestion">Question: </label><input type="text" id="objectivequestion"><br><button id="radio">Add Option</button>'
+        document.getElementById("radio").addEventListener("click", function () {
+          document.getElementById("opt").innerHTML += '<input type="radio" name="radio"><input type="text"><br>'
+        })
+      }
+      else if (e == "Multiplecorrect") {
+        document.getElementById("addition").innerHTML = '<label for="multiquestion">Question: </label><input type="text" id="multiquestion"><br><button id="check">Add Option</button>'
+        document.getElementById("check").addEventListener("click", function () {
+          document.getElementById("opt").innerHTML += '<input type="checkbox"><input type="text"><br>'
+        })
+      }
+      else {
+        document.getElementById("addition").innerHTML = '<label for="numericalquestion">Question: </label><input type="text" id="numericalquestion"><br><label for="numericalanswer">Answer: </label><input type="text" id="numericalanswer">'
+      }
+    })
+  }
+      </script>
+      <span id="responce"></span>
+      <div id="addition"></div>
+      <div id="opt"></div> -->
+</head>
+<body>
+    <form id="form" method="POST" enctype='multipart/form-data'>
+      <!-- <button type="button" class="custom-btn btn-1" onclick="addInput()">
+        <span>Add Random Number</span>
+      </button>
+      <button type="button" class="custom-btn btn-2" onclick="addq()">
+        <span>Add Question</span>
+      </button>
+      <button type="button" class="custom-btn btn-3" onclick="addimg()">
+        <span>Add Image</span>
+      </button>
+      <br />
+    <input type="text" id="q"/>
+   -->
+    {% csrf_token %}
+    {% if messages %}
+        {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+     <!-- {{formset.management_data}}  -->
+
+    <!-- <table>
+      {% for field in formset %}
+      <tr><td>{{field}}</td></tr>
+      {% endfor %}
+    </table> -->
+    {{formset.as_p}}
+    <input type="submit" value="Submit">
+</form>
+    
+</body>
+</html>

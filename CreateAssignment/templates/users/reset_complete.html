@@ -1,0 +1,107 @@
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aim2Crack-Reset Done</title>
+    <link rel="icon" href="{static 'exam/favicon.ico'}" type="image/x-icon">
+    <style>
+        html, body {
+            height:100%;
+        }
+        html {
+            display:table; width:100%;
+        }
+        body {
+            display:table-cell; text-align:center; vertical-align:middle;
+            background-color: rgba(233, 230, 230, 0.678);
+        }
+        .main_box{
+            border: 5px solid white;
+            background-color: white;
+            border-radius: 6px;
+            width: 45%;
+            margin: auto;
+        }
+        @media(max-width:500px){
+           .main_box{width: 90%;}
+        }
+        .logo_head{
+            margin-bottom: 20px;
+            width: 175px;
+        }
+        .btn{
+            background-color: #248162;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-bottom: 40px;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            border-radius: 8px;
+        }
+        .btn:hover{
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+        .text{
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+        .footer{
+            margin-top: 20px;
+        }
+        #no{
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <img src="{% static 'exam/Logo enlarged-03.png'%}" class="logo_head">
+    </div>
+    <div class="main_box">
+        <div class="heading">
+            <h1>Your password has been changed successfully!</h1>
+        </div>
+        <div class=text id = hide>
+            You will be redirected to login in <b id = time>5</b> seconds.
+        </div>
+<div class = text id = no>
+    If you are getting some error you can click on the button
+</div>
+{%if user.is_authenticated%}
+        <div>
+            <a href="{%url 'profile' request.user.profile.id%}" class="btn">Click Here</a>
+        </div>
+        {%else%}
+        <div>
+            <a href="{%url 'login'%}" class="btn">Click Here</a>
+        </div>
+    {%endif%}
+    </div>
+    <div class="footer">
+        Aim2Crack.in All rights reserved.
+    </div>
+</body>
+<script>
+    x = 5
+    time == document.getElementById(time);
+    y = setInterval(()=>{
+        x--;
+        time.innerText = x;
+        if (x<=0){
+            document.getElementById("hide").style ="display:none;"
+            document.getElementById("no").style ="display:block;"
+            document.getElementsByClassName("btn")[0].click;
+            clearInterval(y)
+        }
+    },1000)
+</script>
+</html>

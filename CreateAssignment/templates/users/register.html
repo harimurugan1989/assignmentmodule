@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Aim2Crack-Register</title>
+</head>
+<style>
+.alert-success{
+ 
+      color: #00d000;
+    background-color: #d5ffd5;
+   
+     border: 3px solid  #00d000;
+}
+.alert-error{
+ color:#ff2121;
+   
+    background: #ffc5c5;
+       border: 3px solid #ff2121;
+}
+.alert{
+    margin-bottom: 10px;
+    font-weight: bold;
+  margin-top: 2rem;
+    padding: 7px;
+ 
+    border-radius: 10px;
+}
+</style>
+<body>
+  
+    <div class="register_container">
+   {% if messages %}
+    {% for message in messages%}
+    <div class="alert alert-{{message.tags}}">
+        {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+      
+        <div class="register_box">
+            <div class="left_panel">
+                <h2>Register Yourself on Aim2Crack!!</h2>
+               
+                <form method="POST" class="form_method">
+                    {%csrf_token%}
+
+                    <fieldset class="form-group bottom_error">
+                        <div class="rules_1">
+                            <small id="hint_id_username" class="form-text text-muted instruction"> Required. 150
+                                characters or fewer.
+                                Letters
+                                only.</small>
+                        </div>
+                        <div class="rules_2">
+                            <small id="hint_id_password1" class="form-text text-muted">
+                                <ul class="instruction">
+                                    <!-- <li id = similar>Your password can’t be too similar to your other personal information.</li> -->
+                                    <li id='small'>Your password must contain at least 8 characters.</li>
+                                    <!-- <li id = common>Your password can’t be a commonly used password.</li> -->
+                                    <li id='entire'>Your password can’t be entirely numeric.</li>
+                                </ul>
+                            </small>
+                        </div>
+                        <div class="rules_3">
+                            <small id="hint_id_password2" class="form-text text-muted instruction"> Enter the same
+                                password as before, for
+                                verification.</small>
+                        </div>
+
+
+                        <div id="div_id_username" class="input">
+
+
+
+
+
+                            <input type="text" name="username" maxlength="150" autofocus
+                                class="textinput textInput form-control" required id="id_username" placeholder=" ">
+
+                            <label for="" class="form__label">Username</label>
+
+
+
+
+
+
+                        </div>
+                        <div id="div_id_email" class="input">
+
+
+
+
+
+                            <input type="email" name="email" class="emailinput form-control" required id="id_email"
+                                placeholder=" ">
+                            <label for="" class="form__label">Email</label>
+
+                        </div>
+                        <div class="input " id="div_id_password1">
+
+
+
+                            <input type="password" name="password1" autocomplete="new-password"
+                                class="textinput textInput form-control  id_password1" onkeydown="" required
+                                id="id_password1" placeholder=" ">
+                            <label for="" class="form__label" id="password_label">Password</label>
+                            <span class="eye">
+
+
+                                <i id="hide1" class="bi bi-eye-fill"></i>
+                                <i id="hide2" class="bi bi-eye-slash-fill"></i>
+                            </span>
+
+
+                        </div>
+                        <div id="div_id_password2" class="input">
+
+
+                            <input type="password" name="password2" autocomplete="new-password"
+                                class="textinput textInput form-control id_password2" onkeyup=password() required
+                                id="id_password2" placeholder=" " onchange="myFunction0">
+                            <label for="" class="form__label" id="password_label2">Password Confirmation</label>
+                            <span class="eye" onclick="myFunction1()">
+
+
+                                <i id="hide12" class="bi bi-eye-fill"></i>
+                                <i id="hide22" class="bi bi-eye-slash-fill"></i>
+                            </span>
+
+                        </div>
+                        <div class="input" id="roll">
+                            <input type="text" name="roll_no" placeholder=" " class="form-control">
+                            <label for="" class="form__label">Roll Number/Employee Id</label>
+                        </div>
+                        <div id="institute" class="input">
+
+                            <input type="text" name="college" placeholder=" " class="form-control">
+                            <label for="" class="form__label">College Name</label>
+                        </div>
+                        <div id="profile_name" class="input-box">
+                      
+                         Profile:
+                         <select id="type" name="role">
+                             <option id="S" value="s" selected>Student</option>
+                             <option id="S" value="t" >Teacher</option>
+                         </select>
+
+                </div>
+                       
+                        <div class="sign">
+                            <button class="btn btn-outline-info" type="submit">Sign
+                                Up</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+
+            <div class="right_panel">
+
+   
+                <div class="border-top pt-3">
+                    <small class="text-muted">
+                        <h3> Already have an account ?</h3>
+                        <div class="sign_in">
+
+                            <a class="ml-2" href="{%url 'login' %}">Sign In</a>
+                        </div>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   </body>
+
+</html>

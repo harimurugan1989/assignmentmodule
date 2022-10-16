@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="QUIZZING.COM">
+  <meta name="description" content="">
+  <meta name="page_type" content="np-template-header-footer-from-plugin">
+  <title>Aim2Crack-LOG IN</title>
+ <style>
+  #a_home:hover{
+    transform: scale(1.3,1.3);
+  }
+</style>
+
+</head>
+
+
+<body class="u-body" style="position: relative;">
+  <div class="container">
+    <div class="content-section">
+      <div class="border">
+        <h1>
+          Login Now
+        </h1>
+
+        <form method="POST" class="form_method">
+          {% csrf_token %}
+<!--           <hr class="hr_or">
+          <p class="or">OR</p> -->
+      <fieldset class="form-group">
+
+
+
+          <div id="div_id_username" class="form-group">
+
+
+
+            {% if messages %}
+            {% for message in messages%}
+            <div class="alert alert-{{message.tags}}">
+              {{message}}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+
+            <div class="info"><i class='bx bxs-user'></i> <input type="text" name="email" autofocus
+                autocapitalize="none" autocomplete="username" maxlength="150" class="textinput textInput form-control"
+                required id="id_username" placeholder="Username / Email id"> </div>
+          </div>
+          <div id="div_id_password" class="form-group">
+
+
+            <div class="info"> <i class='bx bxs-lock-alt'></i><input type="password" name="password"
+                autocomplete="current-password" class="textinput textInput form-control" required id="id_password"
+                placeholder="Password">
+              <span class="eye" onclick="myFunction()">
+
+
+                <i id="hide1" class="bi bi-eye-fill"></i>
+                <i id="hide2" class="bi bi-eye-slash-fill"></i>
+              </span>
+            </div>
+          </div>
+
+          </fieldset>
+          <div class="form-group ">
+            <small class="text-muted ml-2 forgot_password">
+              <a href="/password-reset/">Forgot Password</a>
+            </small>
+            
+          </div>
+          {%if request.GET.next%}
+          <input type="hidden" value="{{request.GET.next}}" name="next">
+          {%endif%}
+          <button class="btn btn-outline-info" type="submit">LOG IN </button>
+        </form>
+        
+      </div>
+    </div>
+    <div class="left_panel">
+      <div class="border-top pt-3">
+        <small class="text-muted">
+          <h3>Newbie ?</h3>
+          <p>
+            Chill !! Make your Aim2Crack Account now!!
+          </p>
+          <div class="sign_up">
+            <a class="ml-2" href="{% url 'register'%}">Sign Up </a>
+          </div>
+        </small>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+  <!--js file below -->
+
+</body>
+
+</html>

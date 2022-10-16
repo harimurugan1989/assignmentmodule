@@ -1,0 +1,434 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{static 'exam/favicon.ico'}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'users/profile.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+        integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/4d0c408dff.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{%static 'exam/navbar.css'%}">
+    <title>Aim2Crack-Profile</title>
+</head>
+<style>
+    .profile1{
+    background: url("{% static 'users/wave.svg'%}")no-repeat center center/ cover;
+    }
+    #type{
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .change{
+        
+        font-weight: bold;
+        text-decoration: none;
+        color: #00c6a7;
+    }
+    .doit{
+        float: right;
+        font-size: 1.1rem;
+        align-self: flex-end;
+        margin-right: 80px;
+        margin-top: 15px;
+    }
+    .alert{
+        font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 15px;
+          padding: 7px;
+   
+    border-radius: 10px;
+    }
+    .alert-success{
+         border: 3px solid #00d000 ;
+        color: #00d000;
+    background-color: #d5ffd5;
+     
+  
+    }
+    .alert-error{
+         border: 3px solid  #ff2121;
+       
+    background: #ffc5c5;
+         color:  #ff2121;
+    }
+</style>
+
+<body>
+     <!-- navbar of the site  -->
+      <header style="background: #2eb7b6;">
+        <img class="logo" src="{% static 'exam/Aim2Crack-logo-1.png'%}" alt="logo" title="home" >
+
+        <nav class="main-menu">
+            <ul class="nav_links">
+                <li><a href="{%url 'exam-home'%}">Home</a></li>
+{% if user.is_authenticated%}
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Quizzes</a>
+                    <div class="dropdown-content" style="background: #2eb7b6;">
+                        <a href="./c">
+                            <span>Create Quiz</span>
+                            <small>Analyze results</small>
+                        </a>
+                        <a href="{%url 'quizzes'%}" >
+                            <span>Subjective Quiz</span>
+                            <small>View past results</small>
+                        </a>
+                        <a href="{%url 'quizzes'%}" >
+                            <span>Placement Quiz</span>
+                            <small>View past results</small>
+                        </a>
+                    </div>
+                </li>
+ {%endif%}
+                <!-- DROPDOWN - HR, Interviews, Aptitude -->
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Placements</a>
+                    <div class="dropdown-content" style="background: #2eb7b6;">
+                         <a href="{%url 'placement'%}" >
+                            <span>Apt Crack</span>
+                            <small>Test your quants knowledge</small>
+                        </a>
+                        <a href="{%url 'placement'%}" >
+                            <span>HR Questions</span>
+                            <small>Commonly asked interview questions</small>
+                        </a>
+                        <a href="{%url 'placement'%}" >
+                            <span>Guesstimates</span>
+                            <small>Try your reasoning skills</small>
+                        </a>
+                        <a href="{%url 'placement'%}">
+                            <span>Puzzles</span>
+                            <small>Test your logical thinking</small>
+                        </a>
+                       
+                    </div>
+                </li>
+
+
+                <li><a href="{% url 'placement-talks'%}">Talks</a></li>
+
+                <!-- DROPDOWN - About Us, Meet Our Team, Contact Us -->
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">About</a>
+                    <div class="dropdown-content"  style="background: #2eb7b6;">
+                        <a href="{%url 'about'%}" >
+                            <span>About Us</span>
+                            <small>Know our story</small>
+                        </a>
+                        <a href="{%url 'team'%}">
+                            <span>Team</span>
+                            <small>Meet our superheroes</small>
+                        </a>
+                        <a href="{%url 'contact'%}">
+                            <span>Contact</span>
+                            <small>Join us/Reach us</small>
+                        </a>
+                        <a href="#" >
+                            <span>Resources</span>
+                            <small>Tutorials to aid!</small>
+                        </a>
+                    </div>
+                </li>
+
+                <!-- SEARCH BAR on CLICKING SEARCH ICON -->
+            </ul>
+        </nav>
+
+        <div class="click-dropdown profile-dropdown">
+            <button onclick="myFunction()" class="click-dropbtn">
+                <a style="background: #2eb7b6;">
+                    <span class="material-icons md-24">
+                        person
+                    </span>
+                    {% if user.is_authenticated %}
+                    <p class="profile">
+                        Profile
+                    </p>
+                     {%else%}
+                     <p class="profile">
+                        Signup
+                    </p>
+                    {%endif%}
+                    <span class="material-icons-outlined">
+                        expand_more
+                    </span>
+                </a>
+            </button>
+            <div id="myDropdown" class="click-dropdown-content" style="background: #2eb7b6;">
+ {% if user.is_authenticated %}
+                <a href="{%url 'profile' request.user.profile.id %}" >
+                    <span class="btn-txt">Account</span>
+                    <span class="material-icons-outlined md-18">
+                        manage_accounts
+                    </span>
+                </a>
+                <a href="{%url 'logout'%}" >
+                    <span class="btn-txt">Logout</span>
+                    <span class="material-icons-outlined md-18">
+                        logout
+                    </span>
+                </a>
+ {%else%}
+<a href="{%url 'register'%}" >
+                    <span class="btn-txt">Create Account</span>
+                    <span class="material-icons-outlined md-18">
+                        manage_accounts
+                    </span>
+                </a>
+                <a href="{%url 'login'%}" >
+                    <span class="btn-txt">LogIn</span>
+                    <span class="material-icons-outlined md-18">
+                        logout
+                    </span>
+                </a>
+ {%endif%}
+            </div>
+        </div>
+
+        <span class="ham" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    </header>
+
+    <div id="mySidenav" class="sidenav" style="background: #2eb7b6;">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <nav class="main-menu-1">
+            <ul class="nav_links">
+                <li><a href="{%url 'exam-home'%}">Home</a></li>
+ {% if user.is_authenticated%}
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Quizzes</a>
+                    <div class="dropdown-content">
+                        <a href="{%url 'quizzes'%}">
+                            <span>Create Quiz</span>
+                            <small>Analyze results</small>
+                        </a>
+                        <a href="{%url 'quizzes'%}" >
+                            <span>Subjective Quiz</span>
+                            <small>View past results</small>
+                        </a>
+                        <a href="{%url 'quizzes'%}" >
+                            <span>Placement Quiz</span>
+                            <small>View past results</small>
+                        </a>
+                    </div>
+                </li>
+   {%endif%}
+                <!-- DROPDOWN - HR, Interviews, Aptitude -->
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Placements</a>
+                    <div class="dropdown-content">
+                        <a href="{%url 'placement'%}" >
+                            <span>HR Questions</span>
+                            <small>Commonly asked interview questions</small>
+                        </a>
+                        <a href="{%url 'placement'%}" >
+                            <span>Guesstimates</span>
+                            <small>Try your reasoning skills</small>
+                        </a>
+                        <a href="{%url 'placement'%}" >
+                            <span>Puzzles</span>
+                            <small>Test your logical thinking</small>
+                        </a>
+                        <a href="{%url 'placement'%}">
+                            <span>Apt Crack</span>
+                            <small>Test your quants knowledge</small>
+                        </a>
+                    </div>
+                </li>
+
+
+                <li><a href="{% url 'placement-talks'%}">Talks</a></li>
+
+                <!-- DROPDOWN - About Us, Meet Our Team, Contact Us -->
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">About</a>
+                    <div class="dropdown-content">
+                        <a href="{%url 'about'%}" >
+                            <span>About Us</span>
+                            <small>Know our story</small>
+                        </a>
+                        <a href="{%url 'about'%}">
+                            <span>Team</span>
+                            <small>Meet our superheroes</small>
+                        </a>
+                        <a href="{%url 'contact'%}" >
+                            <span>Contact</span>
+                            <small>Join us/Reach us</small>
+                        </a>
+                        <a href="{%url 'contact'%}" >
+                            <span>Resources</span>
+                            <small>Tutorials to aid</small>
+                        </a>
+                    </div>
+                </li>
+{% if user.is_authenticated %}
+                <li><a href="{%url 'profile' request.user.profile.id %}">Account</a></li>
+                <li><a href="{%url 'logout'%}">Logout</a></li>
+  {%else%}
+                <li><a href="{%url 'register'%}">Create Account</a></li>
+                <li><a href="{%url 'login'%}">LogIn</a></li>
+{%endif%}
+                <!-- SEARCH BAR on CLICKING SEARCH ICON -->
+            </ul>
+        </nav>
+
+
+    </div>
+
+
+   
+    <div class="container">
+      
+       
+        <div class="profile1">
+            <div id="mainprofile">
+                <lord-icon src="https://cdn.lordicon.com/dxjqoygy.json" trigger="loop"
+                colors="primary:#ffffff,secondary:#ffffff"   >
+                </lord-icon>
+            </div>
+            <button class="show-modal">🖊</button>
+            <div class="modal hidden">
+                <button class="close-modal">&times;</button>
+                <button id="1th" class="button-empty">
+                    <lord-icon src="https://cdn.lordicon.com/dxjqoygy.json" trigger="loop"
+                    colors="primary:#ffffff,secondary:#ffffff" >
+                    </lord-icon>
+                </button>
+                <button id="2th" class="button-empty">
+                    <lord-icon src="https://cdn.lordicon.com/eszyyflr.json" trigger="loop"
+                    colors="primary:#ffffff,secondary:#ffffff"  >
+                    </lord-icon>
+                </button>
+                <button id="3th" class="button-empty">
+                    <lord-icon src="https://cdn.lordicon.com/bwnhdkha.json" trigger="loop"
+                    colors="primary:#ffffff,secondary:#ffffff"   >
+                    </lord-icon>
+                </button>
+                <button id="4th" class="button-empty">
+                    <lord-icon src="https://cdn.lordicon.com/ntformof.json" trigger="loop"
+                    colors="primary:#ffffff,secondary:#ffffff"   >
+                    </lord-icon>
+                </button>
+                <button id="5th" class="button-empty">
+                    <lord-icon src="https://cdn.lordicon.com/nobciafz.json" trigger="loop"
+                    colors="primary:#ffffff,secondary:#ffffff"  >
+                    </lord-icon>
+                </button>
+            </div>
+            <div class="user">
+                <h3>{{request.user.username}}</h3>
+            </div>
+        </div>
+        <div class="musk_mail">
+            <i class='bx bxs-envelope'></i>
+            <p class="text-secondary">{{request.user.email}}</p>
+        </div>
+        {% if messages %}
+            {% for message in messages%}
+            <div class="alert alert-{{message.tags}}">
+              {{message}}
+            </div>
+            {% endfor %}
+            {% endif %} 
+        <form method="POST" enctype="multipart/form-data" class="detail_save">
+            {%csrf_token%}
+            <fieldset class="form-group">
+                <div class="info">
+                    <span class="call">
+                        First Name:
+                    </span>
+                    <input type="text" name="first" value="{{request.user.first_name}}" placeholder="First Name">
+                </div>
+                <div class="info">
+                    <span class="call">
+                        Last Name:
+                    </span>
+                    <input type="text" name="last" value="{{request.user.last_name}}" placeholder="Last Name">
+                </div>
+                <div class="info">
+                    <span class="call">
+                        Roll number/Employee Id:
+                    </span><input type="text" name="roll_no" value="{{profile.roll_no}}" placeholder="Roll Number" id="roll_input">
+                </div>
+                <div class="info">
+                    <span class="call">
+                        Institute:
+                    </span>
+                    <input type="text" name="college" value = "{{profile.college}}" placeholder="College Name">
+
+                </div>
+                <div class="info">
+                    <span class="call">
+                        Profile:
+                    </span>
+
+                    <div id="type">
+                        {%ifequal profile.type 's'%}
+                        Student
+                        {%else%}
+                        Teacher
+                        {%endifequal%}
+                    </div>
+
+                </div>
+            </fieldset>
+            <div class="doit">
+                <a href="{%url 'change-password'%}" class = "change">Change Password</a>
+            </div>
+            <textarea type="text" id ="txtarea" name ="avatar" style="display: none;">{{profile.avatar}}</textarea>
+            <div class="button_save">
+                <button class="btn btn-outline-info" type="submit">Save</button>
+            </div>
+        </form>
+        
+        <div class="overlay hidden"></div>
+        <script src="{%static 'users/profile.js'%}"> </script>
+        <script src="{%static 'users/scripts.js' %}"></script>
+        
+        <script>
+            avatar_id = {{profile.avatar}}
+            document.getElementById("mainprofile").innerHTML = document.getElementById(avatar_id+"th").innerHTML
+            
+        </script>
+         <script>
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+        <script src="https://cdn.lordicon.com/libs/mssddfmo/lord-icon-2.1.0.js"></script>
+
+</body>
+
+</html>

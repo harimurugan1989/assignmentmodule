@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add questions</title>
+    <style>
+       h1 {text-align: center;}
+       textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    }
+    button {
+    margin:auto;
+    display:block;
+    }
+       </style>
+</head>
+<style>
+       .main_box {
+        margin-top: 10px;
+        min-width: 350px;
+    }
+    .type_box>div{
+        margin:5px 7px;
+    }
+    .type_box{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #options_all {
+        display: none;
+    }
+
+    .option_line {
+        display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    padding: 5px 1.4rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    }
+
+.correct{
+    margin-right: 5px;
+}
+ 
+    .options_written {
+        width: 100%;
+        min-width: 130px;
+        padding: 0.3rem;
+        background: none;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    }
+    .explanation{
+        margin-top: 1rem;
+        width: 80%;
+        margin-bottom: 2rem;
+    }
+    #options_doing{
+        width: 72%;
+    }
+    .option_line{
+        transition: all 0.5s ease;
+    }
+    .option_line:hover{
+        transform: scale(1.1,1.1);
+    }
+    .back_arrow{
+        position: absolute;
+        top: 40%;
+        left: 1rem;
+        font-size: 4rem;
+        color: #3b7474;
+        transition: all 0.5s ease;
+    }
+    .back_arrow:hover{
+        transform: scale(1.2,1.2);
+        color: #5ab7b6;
+        
+    }
+    @media(max-width:700px){
+        .back_arrow{
+            font-size: 3rem;
+        }
+    }
+    @media(max-width:500px){
+        .back_arrow{
+            font-size: 2rem;
+            top: -35px;
+        }
+    }
+</style>
+</body>
+</html>
+<a href="./../" class="back_arrow"><i class='bx bxs-left-arrow-circle' style="color: #3b7474;"></i></a>
+<form method="POST" enctype="multipart/form-data" style="margin: 120px auto;">
+    {% csrf_token %}
+    
+        <div class="tostrip">
+           Edit Question
+        </div>
+    <div class="main_box">
+        {% if messages %}
+            {% for message in messages%}
+            <div class="alert alert-{{message.tags}}">
+              {{message}}
+            </div>
+            {% endfor %}
+            {% endif %}
+        <div class="type_box">
+            <div class="tipe">
+                Type:
+                <select id="type" name="type">
+                    <option id="S" value="s">Objective Type Question</option>
+                    <option id="M" value="m">Multiple Correct Question</option>
+                    <option id="I" value="i">Integer Type Question</option>
+                </select>
+            </div>
+            <!-- <div class="level">
+                Level:
+                <select name="level">
+                    <option value="e">Easy</option>
+                    <option value="m">Medium</option>
+                    <option value="h">Hard</option>
+                </select>
+            </div>
+            {% ifequal ttype "s" %}
+            <input type="number" id="quantity" style="display: none;" value="60" name="time">
+            {% else %}
+            <div class="time">
+                Time(s):
+                <input type="number" id="quantity" value="{%if time%}{{time}}{%else%}60{%endif%}" name="time" min="1" max="360"><br>
+            </div>
+            {%endifequal%} -->
+        </div>
+        <textarea name="question" type="text" class="question" id="question" placeholder="Write the question here"
+            rows="2" cols="50">{{questiondata.question}}</textarea>
+        <div>
+            <input type="file" name="photo" id="image-option" placeholder="New Image" accept="image/*"  style="margin-bottom: 15px; background: #3b7474; color: white; padding: 5px 0.4rem;">
+        </div>
+        <div>
+            <img class="questionimg" src="./../../../ques_img/{{questiondata.photo}}" alt="" height="300" width="300">
+        </div>
+        <!-- <div id='options_doing'>
+            {%for opt in options %}
+            {%ifequal opt ""%}
+            {%else%}
+            <div class="option_line">
+                <input type="checkbox" class="correct" name="selection">
+                <input class="options_written" value="{{opt}}" placeholder="Option">
+                <button type="button" class="delete_opt"><i class="bx bx-trash"></i></button>
+            </div>
+            {%endifequal%}
+            {%endfor%}
+        </div>
+        <button type="button" class="add-option" id='BUTTON'>
+            <i class='bx bx-plus' ></i>Add option
+        </button>   
+        <input type="text" id="hide" name="correct" value="{{correct}}" placeholder="Correct answer"> -->
+        <div class="explanation">
+           
+            <textarea type="text" id="exp" class="resize fix" name="explanation"
+                min="1" max="1000" placeholder="explanation">{{questiondata.explanation}}</textarea>
+        </div>
+        <!-- <div id="ending_options">
+            <textarea data-row=0 class="options_all" name="options" style="display: none;"
+                placeholder="Option">{{options}}</textarea>
+        </div>         -->
+        <div class="last">
+            <input class="btn" id='save_btn' type="submit" value='Save' placeholder="save">
+        </div>
+
+</form>
+
+</body>
+</html>
+

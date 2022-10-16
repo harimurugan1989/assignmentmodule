@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Page</title>
+    <style>
+          button {
+    margin:  auto;
+    display: block;
+}
+       textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+    </style>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <textarea name="question" id="ques" cols="100" rows="3" placeholder ="Write question here ..." ></textarea>    
+        <br>
+        <textarea name="explanation" id="explain" cols="100" rows="5" placeholder ="explanation ..." ></textarea>
+        
+        <button type="submit" class="submitb">Save</button>
+
+    </form>
+    <a href="../">Back</a>
+</body>
+</html>
