@@ -7,35 +7,32 @@
     <title>Instructions</title>
     <style>
        h1 {text-align: center;}
+       button {
+    margin:  auto;
+    display: block;
+}
        textarea {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    }
-    button {
-    margin:auto;
-    display:block;
-    }
+}
        </style>
 </head>
-
 <body>
-    <div class="alert">
-    
-        {%for message in messages%}
-        {%if message%}
-        {{message}}
-        {%endif%}
-        {%endfor%}
-        </div>
+    {% if messages %}
+        {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     <h1>Add Instructions</h1>
     <form method="POST">
         {% csrf_token %}
-       <textarea name="instruction" id="inst"  col="30" rows="10" placeholder="Write your instructions here" >{{insth}}</textarea>
-     <!-- <input type="text" name="instruction"> -->
-     <div><button type="submit" class="submitb">Update Instructions</button></div>
-   
+        
+        <textarea name="instructions" id="inst" cols="100" rows="15" placeholder ="Write instructions here ..." >{{instruction.instructions}}</textarea>    
+        
+        <button type="submit" class="submitb">Update Instructions</button>
 
     </form>
+    <a href="../">Back</a>
 </body>
 </html>

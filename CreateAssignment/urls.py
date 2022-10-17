@@ -1,27 +1,30 @@
+from os import link
 from django.contrib import admin
 from django.urls import path
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('',views.linkcreate,name='CreateAssignment-home'),
-    path('register/', views.register,name='register'),
-    path('login/', views.do_login,name='login'),
 
+    path('register/',views.register,name='CreateAssignment-register'),
 
+    path('login/',views.do_login,name='CreateAssignment-login'),
 
-    path('<slug:link>/assignment/',views.student_view,name='CreateAssignment-student'),
-    path('<slug:link>/instructions/',views.instruct,name='CreateAssignment-instructions'),
-    path('<slug:link>/addquestion/',views.addquestion,name='CreateAssignment-addquestion'),
-    path('<slug:link>/editquestion/<int:qno>',views.editquestion,name='CreateAssignment-editquestion'),
-    path('<slug:link>/deletequestion/<int:nu>',views.deletequestion,name='CreateAssignment-deletequestion'),
-    path('<slug:link>/',views.summary,name='CreateAssignment-summary'),
-    path('<slug:link>/settings/',views.settings,name='settings'),
-    path('<slug:link>/deletelink/',views.deletelink,name='deletelink'),
-    
-    
+    path('logout/',views.do_logout,name='CreateAssignment-logout'),
+
+    path('<slug:link>/instructions/',views.instructions,name='CreateAssignment-instructions'),
+
+    path('<slug:link>/', views.summary,name='CreateAssignment-summary'),
+
+    path('<slug:link>/edit/',views.edit ,name='CreateAssignment-edit'),
+
+    path('<slug:link>/edit/deletelink/',views.linkdelete ,name='CreateAssignment-deletelink'),
+
+    path('<slug:link>/questions/',views.questions ,name='CreateAssignment-questions'),
+
+    path('<slug:link>/edit_question/<int:qno>/',views.edit_question ,name='CreateAssignment-edit_question'),
+
+    path('<slug:link>/delete_question/<int:qno>/',views.delete_question ,name='CreateAssignment-delete_question'),
+
+    path('<slug:link>/assignment/',views.take_assignment,name='CreateAssignment-assignment'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

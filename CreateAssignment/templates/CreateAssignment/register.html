@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aim2crack-Register</title>
+</head>
+<body>
+    <h2>Register Yourself on Aim2Crack!!</h2>
+               
+        <form method="POST" class="form_method">
+        {%csrf_token%}
+        {% if messages %}
+            {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <br>
+        <input type="text" name="username" id="username" placeholder="Username..."><br>
+        <input type="email" name="email" id="email" placeholder="Email Id..."><br>
+        <input type="text" name="password1" id="password1" placeholder="Create Password..."><br>
+        <input type="text" name="password2" id="password2" placeholder="Confirm your password..."><br>
+        <input type="text" name="college" id="college" placeholder="College name..."><br>
+        <input type="text" name="roll_no" id="roll_no" placeholder="College roll no/Employee ID..."><br>
+        <input type="text" name="role" id="role" placeholder="Type of account..."><br><br>
+        <button type="submit" name="register">Sign Up</button>
+        </form><br>
+    Already registered?<br><a href="/login/">Login here</a>
+</body>
+</html>

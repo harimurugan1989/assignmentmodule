@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Assignment</title>
+    <style>
+        h2 {text-align: center;}
+        p {text-align: center;}
+    </style>
+</head>
+<body>
+    <h2>Assignment Questions</h2>
+    <p>
+        {% for each in content.questions %}
+        {{each.ques_num}}.&nbsp;{{ each.question }}</a><br>
+        {% endfor %} 
+    </p>
+</body>
+</html>
