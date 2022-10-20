@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question Page</title>
     <style>
+        .center-block {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
           button {
     margin:  auto;
     display: block;
@@ -23,6 +28,8 @@
         
         <textarea name="question" id="ques" cols="100" rows="3" placeholder ="Write question here ..." ></textarea>    
         <br>
+        <input class="center-block" type="integer" name="rand_variable_min" id="rand_variable_min" placeholder="minimum value....">
+        <input class="center-block" type="integer" name="rand_variable_max" id="rand_variable_max" placeholder="maximum value...."><br>
         <textarea name="explanation" id="explain" cols="100" rows="5" placeholder ="explanation ..." ></textarea>
         
         <button type="submit" class="submitb">Save</button>

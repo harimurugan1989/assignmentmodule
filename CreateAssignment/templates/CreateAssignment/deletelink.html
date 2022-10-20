@@ -5,15 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-{%load static%}
 <title>Delete</title>
-<!-- <link rel="stylesheet" href="{%static 'public/delete1.css'%}">
-<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
- -->
-<body style="position: relative;">
-    <a href="../" class="back_arrow"><i class='bx bxs-left-arrow-circle' style="color: #3b7474;"></i></a>
-   <div id="question_box1" class=question_box>
-    <div class="top">Delete Quiz </div>
+<body>
+    <a href="../">Back</a>
+    <div id="question_box1" class=question_box>
+    <br><div class="top">Delete Quiz </div>
     <div class="main_box" id="main_box">
         <p class="question">Are you sure you want to delete this quiz?</p>
         <form method="POST" class="form_group">
@@ -22,17 +18,13 @@
                     <div class="choose">
                     <button class="btc botonc" type="submit"><i class='bx bxs-trash-alt'></i> Delete</button>
                     <a class="btc botonc" id = "back_btn" href="../"><i class='bx bx-x'></i> Cancel</a>
-                         </div>
+                    </div>
                 </div>
         </form>
     </div>
 
 </body>
-<script>
-    document.getElementById("save_btn1").addEventListener("click",()=>{
-        document.getElementsByName("ttime")[0].value = String(document.getElementById("ttime").value);
-    })
-</script>
+
 </html>
 
 

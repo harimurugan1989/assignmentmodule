@@ -20,8 +20,12 @@
     <a href='questions/' id="questions">
         <p>Add Question</p>
     </a>
-    <p>{{questions.question}}</p>
-
+    <p>
+        {% for each in content.questions %}
+        {{each.ques_num}}.&nbsp;{{ each.question }} <a href='edit_question/{{each.ques_num}}/'>Edit</a> &nbsp;<a href='delete_question/{{each.ques_num}}/'>Delete</a><br>
+        {% endfor %} 
+    </p>
+        
     <a href='instructions/' id="instructions">
         <p>Add Instruction</p>
     </a>

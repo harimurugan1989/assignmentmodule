@@ -1,115 +1,123 @@
-{%load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
-    <!-- <link rel="stylesheet" href="{% static 'public/settings.css' %}">
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
-    integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" /> -->
-    <style>
-         body{
-        position: relative;
-             flex-direction: column;
-    }
-   
-    .arrow{
-  position: absolute;
-  left: 1rem;
-  top: 48%;
-  font-size: 4rem;
-  color:#298a8a ;
-  text-decoration: none;
-  transition: all 0.5s ease;
-}
-.arrow:hover{
-  transform: scale(1.2,1.2);
- 
-}
-    @media(max-width:670px){
-    .arrow{
-      font-size: 3rem;
-    }
-   
-  }
-    @media(max-width:525px){
-    .arrow{
-     left: 0;
-    }
-   
-  }
-  @media(max-width:580px){
-    .arrow{
-      top: 20px;
-      font-size: 3rem;
-      left: 1rem;
-    }
-  }
-        .alert{
-            font-weight: bold;
-    color: #ac0c0c;
-    font-size: 1.2rem;
-    margin: 10px;
-    text-align: center;
-        }
-    </style>
+    <title>Edit Assignment</title>
 </head>
-<body>
-    
-    <a href="../" class="arrow"><i class='bx bxs-left-arrow-circle'></i></a>
+<style>
+    table.center {
+       margin-left:auto; 
+       margin-right:auto;
+     }
+   h1 {text-align: center;}
+   p {text-align: center;}
+   </style>
+   </head>
+   <body>
+       <form method="POST">
+       {% csrf_token %}
+       {% if messages %}
+           {% for message in messages %}
+                   <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+           {% endfor %}
+       {% endif %}
+       <h1>Edit Assignment</h1>
+        <table class="center">
+       <tr><td>Course Name</td><td><input type="text" name="course_name" placeholder="course name" value="{{course_name}}"></td></tr>
+       <tr><td>Assignment Name</td><td><input type="text" name="assignment_name" placeholder="assignment name" value="{{assignment_name}}"></td></tr>
+       <tr><td>Number of submissions allowed</td><td><input type="integer" name="no_of_submissions" value="{{no_of_submissions}}"></td></tr>
+       <tr><td>Start Date and Time </td><td><input type="datetime-local" name="start" value="{{start}}"></td></tr>
+       <tr><td>First Submission Date and Time</td><td><input type="datetime-local" name="first_sub_time" value="{{first_sub_time}}"></td></tr>
+       <tr><td>Extend deadline with peanlty?</td>
+        {% if extend == "y" %}
+        <td><input type="hidden" name="extend" value="n">
+        <input type="checkbox" name="extend" value="y" checked></td></tr>
+        {% elif extend == "n" %}
+        <td><input type="hidden" name="extend" value="n" checked>
+        <input type="checkbox" name="extend" value="y"></td>
+        {%endif%}</tr>
+       <tr><td>Second Submission Date and Time </td><td><input type="datetime-local" name="second_sub_time" value="{{second_sub_time}}"></td></tr>
+       <tr><td>Percentage penalty for late submission </td><td><input type="text" name="perc_penalty" value="{{perc_penalty}}"></td></tr>
+       <tr><td>Result Date and Time</td><td><input type="datetime-local" name="result_time" value="{{result_time}}"></td></tr>
+       <tr><td>Notification after closing</td>
+                {% if notif == "y" %}
+                <td><select id="notif" name="notif">
+                    <option id="Y" value="y" selected>Yes</option>
+                    <option id="N" value="n">No</option>
+                </select></td>
+                {%else%}
+                <td><select id="notif" name="notif" >
+                    <option id="Y" value="y">Yes</option>
+                    <option id="N" value="n" selected>No</option>
+                </select></td>
+                {%endif%}</tr>
 
-        <div class="alert">
-    
-    {%for message in messages%}
-    {%if message%}
-    {{message}}
-    {%endif%}
-    {%endfor%}
-    </div>
-    <h1>SETTINGS</h1>
-    <table class="center">
-      <tr><td>Course Name</td><td><input type="text" name="course_name" value={{create.course_name}}></td></tr>
-      <tr><td>Assignment Name</td><td><input type="text" name="assignment_name" value={{create.assignment_name}}></td></tr>
-      <tr><td>Number of submissions allowed</td><td><input type="number" name="no_of_submissions" value={{create.no_of_submissions}}></td></tr>
-      <tr><td>Start Date and Time </td><td><input type="datetime-local" name="start" value="{{create.start}}"></td></tr>
-      <tr><td>First Submission Date and Time</td><td><input type="datetime-local" name="first_sub_time"></td></tr>
-      <tr><td>Extend deadline with peanlty?</td><td><input type="checkbox" name="extend"></input></td></tr>
-      <tr><td>Second Submission Date and Time </td><td><input type="datetime-local" name="second_sub_time"></td></tr>
-      <tr><td>Percentage penalty for late submission </td><td><input type="number" name="perc_penalty"></td></tr>
-      <tr><td>Result Date and Time</td><td><input type="datetime-local" name="result_time"></td></tr>
-      <tr><td>Notification after closing</td><td><select id="notif" name = "notif">
-          <option id="Y" value="y" selected >Yes</option>
-          <option id="N" value="n">No</option>
-      </select></td></tr>
-      <tr><td>Negative marking </td><td><select id="neg_mark" name = "neg_mark">
-          <option id="Y" value="y" selected >Yes</option>
-          <option id="N" value="ns">No</option>
-      </select></td></tr>
-      <tr><td>Facial Recognition </td><td><select id="face_rec" name = "face_rec">
-          <option id="Y" value="y" selected >Yes</option>
-          <option id="N" value="n">No</option>
-      </select></td></tr>
-      <tr><td>Result announcement type </td><td><select id="res_anno" name = "res_anno">
-          <option id="Ins" value="ins" selected >Instantaneous</option>
-          <option id="Immf" value="immf">Immediately after first submission time</option>
-          <option id="Imms" value="imms" selected >Immediately after second submission time</option>
-          <option id="Res" value="res">At the result time</option>
-      </select></td></tr>
-      <tr><td><input type="submit" value="Save"></td></tr>
-      
-  </table>          
-
+       <tr><td>Negative marking </td>
+                {% if neg_mark == "y" %}
+                <td><select id="neg_mark" name = "neg_mark">
+                    <option id="Y" value="y" selected >Yes</option>
+                    <option id="N" value="n">No</option>
+                </select></td>
+                {%else%}
+                <td><select id="neg_mark" name = "neg_mark">
+                    <option id="Y" value="y">Yes</option>
+                    <option id="N" value="n" selected>No</option>
+                </select></td>
+                {%endif%}</tr>
                 
-            </div>
-            <div class="delete">
-                <i class='bx bx-trash'></i>
-                <a href = "../deletelink/">Delete this quiz</a>
-            </div>
-        </div>
-    </form>
-      
-</body>
+
+       <tr><td>Facial Recognition </td>
+                {% if face_rec == "y" %}
+                <td><select id="face_rec" name = "face_rec">
+                    <option id="Y" value="y" selected >Yes</option>
+                    <option id="N" value="n">No</option>
+                </select></td>
+                {%else%}
+                <td><select id="face_rec" name = "face_rec">
+                    <option id="Y" value="y">Yes</option>
+                    <option id="N" value="n" selected >No</option>
+                </select></td>
+                {%endif%}</tr>
+
+
+       <tr><td>Result announcement type </td>
+                {% if res_anno == "ins" %}
+                <td><select id="res_anno" name = "res_anno">
+                    <option id="Ins" value="ins" selected >Instantaneous</option>
+                    <option id="Immf" value="immf">Immediately after first submission time</option>
+                    <option id="Imms" value="imms">Immediately after second submission time</option>
+                    <option id="Res" value="res">At the result time</option>
+                </select></td>
+                {% elif res_anno == "immf" %}
+                <td><select id="res_anno" name = "res_anno">
+                    <option id="Ins" value="ins">Instantaneous</option>
+                    <option id="Immf" value="immf" selected >Immediately after first submission time</option>
+                    <option id="Imms" value="imms">Immediately after second submission time</option>
+                    <option id="Res" value="res">At the result time</option>
+                </select></td>
+                {% elif res_anno == "imms" %}
+                <td><select id="res_anno" name = "res_anno">
+                    <option id="Ins" value="ins">Instantaneous</option>
+                    <option id="Immf" value="immf">Immediately after first submission time</option>
+                    <option id="Imms" value="imms"  selected >Immediately after second submission time</option>
+                    <option id="Res" value="res">At the result time</option>
+                </select></td>
+                {% elif res_anno == "res" %}
+                <td><select id="res_anno" name = "res_anno">
+                    <option id="Ins" value="ins">Instantaneous</option>
+                    <option id="Immf" value="immf">Immediately after first submission time</option>
+                    <option id="Imms" value="imms">Immediately after second submission time</option>
+                    <option id="Res" value="res"  selected >At the result time</option>
+                </select></td>
+                {%endif%}</tr>
+
+       <tr><td><input type="submit" value="Update Assignment"></td></tr>
+              </table>
+              <a href = "deletelink/"><p>Delete this Assignment</p></a>
+   </form>
+   <a href="../">Back</a>  
+   </body>
 </html>

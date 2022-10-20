@@ -1,32 +1,16 @@
-from datetime import datetime 
+from asyncio.windows_events import NULL
+import datetime 
 from http.client import REQUEST_HEADER_FIELDS_TOO_LARGE
 from django.contrib import messages
-from .models import instructions
-from .models import createlink
-from .models import questiondata
-# from .models import assignquestion
-from .forms import UserRegisterForm,UserUpdateForm,UserDetailForm
-from .models import Profile
-# from .models import 
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
+from .models import Question, createlink, Instruction, Profile, Student
 from django.shortcuts import redirect, render
 import random
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView,DeleteView
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from .models import Profile
-from .models import st_data
-import os
-from .models import *
-import datetime
-
-# from .forms import quest
-from django.forms import modelformset_factory
-
-from PIL import Image
-
 
 RANDOM_LINK_GENERATED=''
 def randlink():
@@ -40,21 +24,137 @@ def randlink():
         if i==2 or i == 6 :
             link+='-'
     return link
+
+def randnumber(a,b):
+    return random.randint(a,b)
+
 # Create your views here.
 @login_required
 def linkcreate(request):
-    userr=[]
-    create=[]
-    userr=request.user.username
+    pro=Profile.objects.filter(user=request.user).first()
+    if pro is None:
+        return redirect('login/')
+    elif pro.type=='t':
+        if request.method == "POST":
+            if request.POST["course_name"].strip() == "" or request.POST["assignment_name"].strip() == "" or request.POST["result_time"] == "" or request.POST["start"] =="":
+                messages.error(request,"Fill all the details to continue!")
+                return redirect("./")
+
+            start = request.POST["start"].replace('T',' ')
+            first_sub_time = request.POST["first_sub_time"].replace('T',' ')
+            second_sub_time = request.POST["second_sub_time"].replace('T',' ')
+            result_time = request.POST["result_time"].replace('T',' ')
+            ajf =str(datetime.datetime.strptime(first_sub_time, '%Y-%m-%d %H:%M')-datetime.datetime.strptime(start, '%Y-%m-%d %H:%M'))
+            if ajf[0] == '-' or ajf == '0:00:00':
+                messages.error(request,'Start time cannot be same or greater than first submission time')
+                return redirect('./')
+            if str(datetime.datetime.strptime(second_sub_time, '%Y-%m-%d %H:%M')-datetime.datetime.strptime(first_sub_time, '%Y-%m-%d %H:%M'))[0] == '-':
+                messages.error(request,'First submission time cannot be same or greater than second submission time')
+                return redirect('./')
+            if str(datetime.datetime.strptime(result_time, '%Y-%m-%d %H:%M')-datetime.datetime.strptime(second_sub_time, '%Y-%m-%d %H:%M'))[0] == '-':
+                messages.error(request,'Second submission time cannot be greater than result time')
+                return redirect('./')
+
+            if (datetime.datetime.strptime(start, '%Y-%m-%d %H:%M') <= datetime.datetime.now()):
+                messages.error(request,'Start time has to be in future')
+                return redirect('./')
+
+            create = createlink()
+            create.course_name = request.POST["course_name"].strip().replace(" ","-")
+            create.assignment_name = request.POST["assignment_name"].strip().replace(" ","-")
+            create.start = request.POST["start"]
+            create.first_sub_time = request.POST["first_sub_time"]
+            create.extend = request.POST["extend"]
+            create.second_sub_time = request.POST["second_sub_time"]
+            create.no_of_submissions = request.POST["no_of_submissions"]
+            create.perc_penalty = request.POST["perc_penalty"]
+            create.notif = request.POST["notif"]  
+            create.face_rec = request.POST["face_rec"] 
+            create.neg_mark = request.POST["neg_mark"]
+            create.res_anno= request.POST["res_anno"]
+            create.creator_id = request.user.id
+            create.result_time = request.POST["result_time"]
+            link = None
+            while(True):
+                link = randlink()
+                if createlink.objects.filter(link= link).first() is None:
+                    break
+            create.link= link
+            create.save()
+            Instruction.objects.create(instructions= "", assignment_id = create.id )
+            messages.success(request,f"Assignment has been created successfully!")
+            return redirect("../"+link+"/")
+        return render(request,"CreateAssignment/home.html")
+    elif pro.type =='s':
+        return render(request,'CreateAssignment/something.html',{'msg':"Student profile is not permitted to create Assignment"})
+
+
+@login_required
+def summary(request,link):
+    pro=Profile.objects.filter(user=request.user).first()
+    if pro.type=='t':
+        codes_id=createlink.objects.filter(link=link).first()
+        content=[]
+        dic={}
+        ques = Question.objects.filter(assignment_id=codes_id.id).all()
+        num= 1
+        for questiondatas in ques:
+            questions={}
+            questions["question"]=questiondatas.question
+            questions["explanation"]=questiondatas.explanation
+            questions["ques_num"]=num
+            content.append(questions)
+            num+=1
+        dic={"questions":reversed(content)}
+        return render(request, "CreateAssignment/summary.html", {"assign": codes_id,"content":dic})
+    elif pro.type=='s':
+        code = createlink.objects.filter(link=link).first()
+        inst = Instruction.objects.filter(assignment_id = code.id).first()
+        instructions = inst.instructions.split('\n')
+        num_of_ques = Question.objects.filter(assignment_id=code.id).count()
+        nos=Student.objects.filter(username=request.user,link_id=code.id).count()
+        ques_all=Question.objects.filter(assignment_id=code.id).all()
+        data_m=Student.objects.filter(username=request.user,link_id=code.id,qno=nos+1).first()
+        j=0
+        while(nos<num_of_ques):
+            ques=ques_all[j]
+            if data_m is None:
+                data=Student()       
+                rand_arr=[]
+                data.username=request.user
+                data.link_id = code.id
+                data.qno_id=ques.id
+                r=1
+                i='$'+str(r)
+                while(ques.question.find(i)!=-1):
+                    x=randnumber(int(ques.rand_variable_min),int(ques.rand_variable_max))
+                    rand_arr.append(x)
+                    r+=1
+                    i='$'+str(r)
+                data.R=rand_arr
+                data.save()
+                nos+=1
+                j+=1
+        return render(request,"CreateAssignment/stu_instructions.html",{"lines" : instructions,"assign": code,"noq":num_of_ques })
+
+@login_required
+def instructions(request,link):
+    code = createlink.objects.filter(link=link).first()
+    inst = Instruction.objects.filter(assignment_id = code.id).first()
     if request.method == "POST":
-              # print('HELLO WORLD')
-        #try:
-           # if request.POST["course_name"].strip() == "" or request.POST["assign_name"].strip() == "" or request.POST["result_time"] == "" or request.POST["start"] =="":
-               # messages.error(request,"Fill all the details to continue!")
-                #return redirect("./")
-        #except:
-              #  messages.error(request,"Fill all the details to continue!")
-               # return redirect("./")
+        inst.instructions = request.POST["instructions"]
+        inst.save()
+        messages.success(request,f"Instructions have been updated successfully!")
+        return redirect("./")
+    return render(request,"CreateAssignment/instructions.html",{"instruction" : inst})
+
+@login_required
+def edit(request,link):
+    codes = createlink.objects.filter(link = link).all()
+    if request.method == 'POST':
+        if request.POST["course_name"].strip() == "" or request.POST["assignment_name"].strip() == "" or request.POST["result_time"] == "" or request.POST["start"] =="":
+            messages.error(request,"Fill all the details to continue!")
+            return redirect("./")
         start = request.POST["start"].replace('T',' ')
         first_sub_time = request.POST["first_sub_time"].replace('T',' ')
         second_sub_time = request.POST["second_sub_time"].replace('T',' ')
@@ -74,401 +174,154 @@ def linkcreate(request):
             messages.error(request,'Start time has to be in future')
             return redirect('./')
 
-        create = createlink()
-        create.course_name = request.POST["course_name"].strip().replace(" ","-")
-        create.assignment_name = request.POST["assignment_name"].strip().replace(" ","-")
-        create.start = request.POST["start"]
-        create.first_sub_time = request.POST["first_sub_time"]
-        create.second_sub_time = request.POST["second_sub_time"]
-        create.no_of_submissions = request.POST["no_of_submissions"]
-        create.perc_penalty = request.POST["perc_penalty"] 
-        create.notif = request.POST["notif"] 
-        create.face_rec = request.POST["face_rec"] 
-        create.neg_mark = request.POST["neg_mark"] 
-        create.res_anno= request.POST["res_anno"] 
-        create.creator_id = request.user.id
-        create.result_time = request.POST["result_time"]
-        link = None
-        while(True):
-            link = randlink()
-            if createlink.objects.filter(link= link).first() is None:
-                break
-        print("link",link)
-        create.link= link
-        create.save()
-        # userr=user.request.id
-        instructions.objects.create(instruction="",assignm_id=create.id)
-        messages.success(request,f"Assignment has been created successfully!")
-        return redirect("/"+link+"/")
-        
-    return render(request,"CreateAssignment/home_old.html",{"use":userr, "create":create})
-
-@login_required
-def summary(request,link):  
-    codes_id= createlink.objects.filter(link=link).first()
-    everyquestion = questiondata.objects.filter(link_id=codes_id.id).all()
-    # print(everyquestion)
-    # contents={}
-    flist=[]
-    
-    # # content=everyquestion
-    # for each in everyquestion:
-    #     contents={}
-    #     # print(str(each.photo1))
-    #     contents["photo1"]=str(each.photo1)
-    #     print(contents)
-    #     print(each.id)
-    #     flist.append(contents)
-    
-    # print(flist)
-    # for each in everyquestion:
-    #     print(each.photo1)
-        # contents["photo1"]=str(each.photo1)
-        # flist.append(contents)
-        # print(flist)       
-    # all_sections = []
-    # content = []
-    # dic = {}
-    # if codes_id is not None :
-    #    everyquestion = questiondata.objects.filter(link_id=codes_id.id).all()
-    #    num = 1
-    # #    for questiondatas in everyquestion:
-    # #     questions = {}
-    # #     options = {} 
-    # #     i = 1
-    # #     # for type in questiondatas.options.split('/.\\'):
-    # #     #     if type == '':
-    # #     #         continue
-    # #     #     options['opt_'+str(i)] = type 
-    # #     #     i += 1
-    # #     questions["question"]=questiondatas.question
-    # #     questions["type"]= questiondatas.type
-    # #     questions["explanation"]=questiondatas.explanation
-    # #     questions["ques_num"]=num
-    # #     questions["number"]=questiondatas.id
-    # #     questions["image"]=str(questiondatas.photo)
-    # #     content.append(questions)
-    # #     num+=1
-    # # else:
-    # #     print(codes_id)
-    # print(everyquestion)
-    # dic = {"questions":reversed(content)}
-    # all_sections.append(dic)
-    return render(request,"CreateAssignment/summary_page.html",{"questions":everyquestion, "content":flist})
-    
-
-@login_required
-def instruct(request,link):
-    code=createlink.objects.filter(link=link).first()
-    inst = instructions.objects.filter(assignm_id=code.id).first()
-    if request.method == "POST":
-        print(request.POST["instruction"])
-        inst.instruction= request.POST["instruction"]
-        inst.save()
-        messages.success(request,f"Instructions have been updated successfully!")
-        return redirect("./")
-    return render(request,"CreateAssignment/instructions.html",{"insth":inst.instruction})
-
-
-@login_required
-def settings(request,link):        
-    create= createlink.objects.filter(link =link).first()   
-    print(create)
-    if request.method == 'POST':
-        # start = request.POST["start"].replace('T',' ')
-        # if request.method
-        # start = request.POST["start"].replace('T',' ')
-        # margin = request.POST["margin"].replace('T',' ')
-        # result = request.POST["result"].replace('T',' ')
-        # ajf =str(datetime.strptime(margin, '%Y-%m-%d %H:%M')-datetime.strptime(start, '%Y-%m-%d %H:%M'))
-        # if ajf[0] == '-' or ajf == '0:00:00':
-        #     messages.error(request,'Last Login time can not be same or greater than the quiz start time')
-        #     return redirect('./')
-        # if str(datetime.strptime(result, '%Y-%m-%d %H:%M')-datetime.strptime(margin, '%Y-%m-%d %H:%M'))[0] == '-':
-        #     messages.error(request,'Result Opening time can not be greater than the Last Login time')
-        #     return redirect('./')
-        create.course_name = request.POST["course_name"].strip().replace(" ","-")
-        create.assignment_name = request.POST["assignment_name"].strip().replace(" ","-")
-        create.start = request.POST["start"]
-        create.first_sub_time = request.POST["first_sub_time"]
-        create.second_sub_time = request.POST["second_sub_time"]
-        create.no_of_submissions = request.POST["no_of_submissions"]
-        create.perc_penalty = request.POST["perc_penalty"] 
-        create.notif = request.POST["notif"] 
-        create.face_rec = request.POST["face_rec"] 
-        create.neg_mark = request.POST["neg_mark"] 
-        create.res_anno= request.POST["res_anno"] 
-        create.creator_id = request.user.id
-        create.result_time = request.POST["result_time"]
-        create.save()
+        for code in codes:
+            code.course_name = request.POST["course_name"].strip().replace(" ","-")
+            code.assignment_name = request.POST["assignment_name"].strip().replace(" ","-")
+            code.start = request.POST["start"]
+            code.first_sub_time = request.POST["first_sub_time"]
+            code.extend = request.POST.get("extend",False)
+            code.second_sub_time = request.POST["second_sub_time"]
+            code.no_of_submissions = request.POST["no_of_submissions"] 
+            code.perc_penalty = request.POST["perc_penalty"]
+            code.notif = request.POST["notif"] 
+            code.face_rec = request.POST["face_rec"]
+            code.neg_mark = request.POST["neg_mark"] 
+            code.res_anno= request.POST["res_anno"]
+            code.creator_id = request.user.id
+            code.result_time = request.POST["result_time"]
+            code.save()
         messages.success(request,"Settings Updated Successfully")
         return redirect('./')
-    print(create.start)
-    # start_v = str(code.start)[:10]+'T'+str(code.start)[11:16]
-    # data = {'course':code.course_name,'start':start_v,"code_id":code.id}
-    return render(request,'CreateAssignment/settings.html',{"create":create})
-
+    code = codes.first()
+    start_v=str(code.start)[:10]+'T'+str(code.start)[11:16]
+    first_sub_time_v=str(code.first_sub_time)[:10]+'T'+str(code.first_sub_time)[11:16]
+    second_sub_time_v=str(code.second_sub_time)[:10]+'T'+str(code.second_sub_time)[11:16]
+    result_time_v=str(code.result_time)[:10]+'T'+str(code.result_time)[11:16]
+    data = {"course_name":code.course_name,"assignment_name":code.assignment_name,"start":start_v,"first_sub_time":first_sub_time_v,"extend":code.extend,"second_sub_time":second_sub_time_v,"code_id":code.id,"no_of_submissions":code.no_of_submissions,"perc_penalty":code.perc_penalty,"notif":code.notif,"face_rec":code.face_rec, "neg_mark":code.neg_mark,"res_anno": code.res_anno,"result_time":result_time_v}
+    return render(request,'CreateAssignment/settings.html',data)
 
 @login_required
-def deletelink(request,link):
+def linkdelete(request,link):
     if request.method == "POST":
-        x = createlink.objects.filter(link = link).all().delete()
-        return redirect('CreateAssignment-home')
+       x = createlink.objects.filter(link = link).all().delete()
+       messages.success(request,"Assignment has been deleted successfully")
+       return redirect('/')
     return render(request,"CreateAssignment/deletelink.html")
 
-
-def addquestion(request,link):        
-    code=createlink.objects.filter(link=link).first()
-    # qno= createlink.objects.filter(link=link).first()
-    # print(qno)
-    # quesformset=modelformset_factory(assignquestion, fields=('question','marks','ans'), extra=1)
-    ques={}
-    if request.method == 'POST':
-        ques=questiondata()
-        # ques=assignquestion()
-        # start = request.POST["start"].replace('T',' ')
-        # if request.method
-        # start = request.POST["start"].replace('T',' ')
-        # margin = request.POST["margin"].replace('T',' ')
-        # result = request.POST["result"].replace('T',' ')
-        # ajf =str(datetime.strptime(margin, '%Y-%m-%d %H:%M')-datetime.strptime(start, '%Y-%m-%d %H:%M'))
-        # if ajf[0] == '-' or ajf == '0:00:00':
-        #     messages.error(request,'Last Login time can not be same or greater than the quiz start time')
-        #     return redirect('./')
-        # if str(datetime.strptime(result, '%Y-%m-%d %H:%M')-datetime.strptime(margin, '%Y-%m-%d %H:%M'))[0] == '-':
-        #     messages.error(request,'Result Opening time can not be greater than the Last Login time')
-        #     return redirect('./')
-      
-        ques.des1= request.POST["des1"]
-        
-        try:
-            ques.photo1 = request.FILES["photo1"]
-        except:
-            ct =1
-        try:
-            ques.rmin1=request.POST["rmin1"]
-            ques.rmin2=int(request.POST["rmin2"])
-            ques.rmin3=request.POST["rmin3"]
-            ques.rmax1=request.POST["rmax1"]
-            ques.rmax2=request.POST["rmax2"]
-            ques.rmax3=request.POST["rmax3"]
-            ques.mark1=request.POST["mark1"] 
-        except ValueError:
-            ques.rmin1=0
-            ques.rmin2=0
-            ques.rmin3=0
-            ques.rmax1=0
-            ques.rmax2=0
-            ques.rmax3=0
-            ques.mark1=0
-
-
-        ques.ques1=request.POST["ques1"]
-        ques.ans1=request.POST["ans1"]
-        ques.exp1=request.POST["exp1"]
-        # ques.mark2=request.POST["mark2"] 
-        # ques.ques2=request.POST["ques2"]
-        # ques.ans2=request.POST["ans2"]
-        # ques.exp2=request.POST["exp2"]       
-        # ques.mark3=request.POST["mark3"] 
-        # ques.ques3=request.POST["ques3"]
-        # ques.ans3=request.POST["ans3"]
-        # ques.exp3=request.POST["exp3"]       
-        try:
-            ques.rmax2 = int(ques.rmax2)
-        except ValueError:
-            ques.rmax2 = 0 
-        # ques.mark4=request.POST["mark4"] 
-        # ques.ques4=request.POST["ques4"]
-        # ques.ans4=request.POST["ans4"]
-        # ques.exp4=request.POST["exp4"]       
-
-        # ques.mark5=request.POST["mark5"] 
-        # ques.ques5=request.POST["ques5"]
-        # ques.ans5=request.POST["ans5"]
-        # ques.exp5=request.POST["exp5"]       
-        ques.link=code       
+@login_required
+def questions(request,link):
+    pro=Profile.objects.filter(user=request.user).first()
+    ques = Question()
+    if request.method == "POST":
+        ques.assignment_id = createlink.objects.filter(link =link).first().id
+        ques.question = request.POST["question"]
+        ques.rand_variable_min=request.POST["rand_variable_min"]
+        ques.rand_variable_max=request.POST["rand_variable_max"]
+        ques.explanation = request.POST["explanation"]
         ques.save()
-        messages.success(request,"Question added")
-        return redirect('./')
-    # formset=quesformset(queryset=assignquestion.objects.filter(qno=code.id))
-    # code = codes.first()
-    # # start_v = str(code.start)[:10]+'T'+str(code.start)[11:16]
-    #  data = {'type':code.type,'question':code.question,"explanation":code.explanation}
-    # return render(request,'CreateAssignment/new.html',{'formset':formset, "quest":ques})
-    return render(request,'CreateAssignment/new.html',{"quest":ques})
+        messages.success(request,f"Question has been added successfully!")
+        return redirect("../")
+    return render(request,"CreateAssignment/questions.html")
+   
+   
+@login_required
+def edit_question(request,link,qno):
+    codes_id=createlink.objects.filter(link=link).first()
+    ques = Question.objects.filter(assignment_id=codes_id.id).all()
+    id_first=ques.values_list('id',flat=True).first()
+    change = Question.objects.filter(id=id_first+qno-1).first()
+    if request.method == "POST":
+        change.question = request.POST["question"]
+        change.rand_variable_min=request.POST["rand_variable_min"]
+        change.rand_variable_max=request.POST["rand_variable_max"]
+        change.explanation = request.POST["explanation"]
+        change.save()
+        messages.success(request,f"Question has been updated successfully!")
+        return redirect("../../")    
+    return render(request,"CreateAssignment/edit_question.html",{"questions":change})
 
-def editquestion(request,link,qno):
-    # if not ev(request):
-    #     return redirect('email-verify')
-    code=createlink.objects.filter(link=link).first()
-    ques= questiondata.objects.filter(id = qno).first()
-    # code = createlink.objects.filter(link = link).first()
-    # if code is None:
-    #     return render(request,"public/something.html",{'msg':"Check your link again. This Link is not valid.","videos":topThree()})
-    # if request.user.id != code.creator_id:
-    #     return render(request,"public/something.html",{"msg":"You are not allowed on this page. Please go back.","videos":topThree()})
-    # some = {}
-    # some["type"] = change.type
-    # some["question"] = change.question
-    # some["explanation"] = change.explanation
-    # some["photo"] = str(change.photo)
-    # ques={}
-    if request.method == 'POST':
-        # ques=questiondata()
-        # ques=assignquestion()
-        # start = request.POST["start"].replace('T',' ')
-        # if request.method
-        # start = request.POST["start"].replace('T',' ')
-        # margin = request.POST["margin"].replace('T',' ')
-        # result = request.POST["result"].replace('T',' ')
-        # ajf =str(datetime.strptime(margin, '%Y-%m-%d %H:%M')-datetime.strptime(start, '%Y-%m-%d %H:%M'))
-        # if ajf[0] == '-' or ajf == '0:00:00':
-        #     messages.error(request,'Last Login time can not be same or greater than the quiz start time')
-        #     return redirect('./')
-        # if str(datetime.strptime(result, '%Y-%m-%d %H:%M')-datetime.strptime(margin, '%Y-%m-%d %H:%M'))[0] == '-':
-        #     messages.error(request,'Result Opening time can not be greater than the Last Login time')
-        #     return redirect('./')
-      
-        ques.des1= request.POST["des1"]
-        
-        try:
-            ques.photo1 = request.FILES["photo1"]
-        except:
-            ct =1
-        try:
-            ques.rmin1=request.POST["rmin1"]
-            ques.rmin2=int(request.POST["rmin2"])
-            ques.rmin3=request.POST["rmin3"]
-            ques.rmax1=request.POST["rmax1"]
-            ques.rmax2=request.POST["rmax2"]
-            ques.rmax3=request.POST["rmax3"]
-            ques.mark1=request.POST["mark1"] 
-        except ValueError:
-            ques.rmin1=0
-            ques.rmin2=0
-            ques.rmin3=0
-            ques.rmax1=0
-            ques.rmax2=0
-            ques.rmax3=0
-            ques.mark1=0
-
-
-        ques.ques1=request.POST["ques1"]
-        ques.ans1=request.POST["ans1"]
-        ques.exp1=request.POST["exp1"]
-        # ques.mark2=request.POST["mark2"] 
-        # ques.ques2=request.POST["ques2"]
-        # ques.ans2=request.POST["ans2"]
-        # ques.exp2=request.POST["exp2"]       
-        # ques.mark3=request.POST["mark3"] 
-        # ques.ques3=request.POST["ques3"]
-        # ques.ans3=request.POST["ans3"]
-        # ques.exp3=request.POST["exp3"]       
-        try:
-            ques.rmax2 = int(ques.rmax2)
-        except ValueError:
-            ques.rmax2 = 0 
-        # ques.mark4=request.POST["mark4"] 
-        # ques.ques4=request.POST["ques4"]
-        # ques.ans4=request.POST["ans4"]
-        # ques.exp4=request.POST["exp4"]       
-
-        # ques.mark5=request.POST["mark5"] 
-        # ques.ques5=request.POST["ques5"]
-        # ques.ans5=request.POST["ans5"]
-        # ques.exp5=request.POST["exp5"]       
-        ques.link=code       
-        ques.save()
-        messages.success(request,"Question updated")
-        return redirect('../')
-    return render(request,'CreateAssignment/new.html',{"quest":ques})
-
+@login_required
+def delete_question(request,link,qno):
+    if request.method =='POST':
+        codes_id=createlink.objects.filter(link=link).first()
+        ques = Question.objects.filter(assignment_id=codes_id.id).all()
+        id_first=ques.values_list('id',flat=True).first()
+        Question.objects.filter(id = id_first+qno-1).first().delete()
+        messages.success(request,f"Question has been deleted successfully!")
+        return redirect('../../')
+    return render(request,"CreateAssignment/delete_question.html")
 
 def register(request):
     if request.method == 'POST' :
         register = User()
-        # if request.POST["college"] == '' or request.POST["roll_no"] == '' or  request.POST["username"]=="" or request.POST["password1"] == ""  or request.POST["password2"]=="":
-        #     messages.error(request,'Please fill all the informations!')
-        #     return redirect('register')
-        # if User.objects.filter(email=request.POST["email"].lower()).first() is not None:
-        #     messages.error(request,'A user with that email already exist!')
-        #     return redirect('register')
-        # if User.objects.filter(username=request.POST["username"].lower()).first() is not None:
-        #     messages.error(request,'That username already exist!')
-        #     return redirect('register')
-        # if request.POST["password1"] != request.POST["password2"] and len(request.Post["password1"]) < 8 :
-        #     messages.error(request,'Either the passwords you have entered are not same or the length of passwords is less than 8!')
-        #     return redirect('register')
+        if request.POST["college"] == '' or request.POST["roll_no"] == '' or  request.POST["username"]=="" or request.POST["password1"] == ""  or request.POST["password2"]=="":
+            messages.error(request,'Please fill all the information!')
+            return redirect('./')
         register.username = request.POST["username"].lower()
         register.email = request.POST["email"].lower()
-        register.set_password(request.POST["password1"])
-        register.save()
-        y = User.objects.filter(username = request.POST["username"].lower()).first().id
-        pro = Profile.objects.filter(user_id = y).first()
-        pro.college = request.POST["college"]
-        pro.roll_no = request.POST["roll_no"]
-        if request.POST["role"] == "s": 
-            pro.type = 's'
-        elif request.POST["role"] == "t":
-            pro.type = "t"
-        else:
-            messages.error(request,"Select the correct role...")
+        if request.POST["password1"]==request.POST["password2"]:
+            register.set_password(request.POST["password1"])
+            register.save()
+            pro=Profile()
+            y = User.objects.filter(username = request.POST["username"].lower()).first()
+            pro.user_id=y.id
+            pro.roll_no = request.POST["roll_no"]
+            pro.college = request.POST["college"]
+            pro.type = request.POST["role"]
+            pro.save()
+            messages.success(request,"Registered successfully as "+request.POST["username"].lower())
             return redirect('./')
-        # pro.avatar = '1'
-        pro.save()
-        messages.success(request,"Logged In successfully as "+request.POST["username"].lower())
-        user = authenticate(request, username = request.POST["username"].lower(), password = request.POST["password1"])
-        login(request,user)
-        return redirect('email-verify')
-    else:
-        form =UserRegisterForm()
-    return render(request,'users/register.html')
-
-
+        else:
+            messages.error(request,"Passwords did not match")
+            return redirect('./')
+    return render(request,'CreateAssignment/register.html')
+        
 def do_login(request):
     if request.method == 'POST':
-        username = request.POST['email'].lower()
-        password = request.POST['password']
-        print(password)
-        try:
-            users = User.objects.filter(email=username).first().username
-        except:
-            users = username
-        user = authenticate(request, username=users, password=password)
+        username = request.POST['username'].lower()
+        password = request.POST['password1']
+        user = authenticate(request, username=username, password=password)
         if user is not None:
+            pro=Profile.objects.filter(user=user).first()
             login(request,user)
-            try:
-                if request.POST["next"]:
-                     return redirect('./../../..'+request.POST["next"])
-            except:
-                return redirect('CreateAssignment-home')
+            messages.success(request,"Logged in successfully as "+request.POST["username"].lower())
+            if pro.type =='t':
+               return redirect('/')
+            elif pro.type=='s':
+                return redirect('./')
         else:
-            messages.error(request,'Email or Password you have entered is wrong.')
-    return render(request,'users/login.html')
+            messages.error(request,'Username or Password you have entered is wrong.')
+            return redirect('./')
+    return render(request,'CreateAssignment/login.html')
 
+def do_logout(request):
+    logout(request)
+    return render(request,'CreateAssignment/logout.html')
 
-def deletequestion(request,link,nu):
-    if request.method == 'POST':
-        questiondata.objects.filter(id = nu).first().delete()
-        return redirect('../')
-    return render(request,'CreateAssignment/delete.html')
-
-def student_view(request,link):
-    code= createlink.objects.filter(link = link).first()
-   
-    print(custom)
-    if request.user.profile.type == "t":
-        return redirect("../")
-    mydata = st_data()
-    if request.method == 'POST':
-        mydata.answer = request.POST["answer"]
-        mydata.username_id = int(request.user.id)
-        mydata.link_id = code.id
-        mydata.save()
-        return redirect('CreateAssignment-home')    
-    return render(request,'CreateAssignment/summary.html',{"cus":custom})
+@login_required
+def take_assignment(request,link):
+    codes_id=createlink.objects.filter(link=link).first()
+    all_sections=[]
+    content=[]
+    dic={}
+    ques = Question.objects.filter(assignment_id=codes_id.id).all()
+    num= 1
+    for questiondatas in ques:
+        questions={}
+        data=Student.objects.filter(username=request.user,link_id=codes_id.id,qno_id=questiondatas.id).first()
+        j=1
+        i='$'+str(j)
+        k=0
+        while(questiondatas.question.find(i)!=-1):
+            questiondatas.question=questiondatas.question.replace(i,str(data.R[k]))
+            k+=1
+            j+=1
+            i='$'+str(j)
+        questions["question"]=questiondatas.question
+        questions["explanation"]=questiondatas.explanation
+        questions["ques_num"]=num
+        content.append(questions)
+        num+=1
+    dic={"questions":content}
+    return render(request,'CreateAssignment/assignment.html',{"content":dic})
     
-
-        
-       

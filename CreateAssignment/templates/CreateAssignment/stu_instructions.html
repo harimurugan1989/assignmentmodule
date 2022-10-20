@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Instructions</title>
+    <style>
+        h2,h1 {text-align: center;}
+        p {text-align: center;}
+    </style>
+</head>
+<body>
+    {{user.username}}
+    <h1>{{assign.assignment_name}}</h1>
+    <p>Start time: {{assign.start}}<br><br>
+    No. of questions: {{noq}}</p>
+    <h2>Instructions to Students</h2>
+    {% for line in lines %}
+    <p>{{line}}</p> 
+    {% endfor %}
+    <div style="text-align:center">
+        <a href="assignment/">Start Assignment</a>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+    </div>
+   
+</body>
+</html>
