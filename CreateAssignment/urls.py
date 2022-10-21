@@ -1,6 +1,8 @@
 from os import link
 from django.contrib import admin
 from django.urls import path
+
+from CreateAssignment.views.assignmentsummary import asummary
 from .views import *
 
 urlpatterns = [
@@ -14,7 +16,9 @@ urlpatterns = [
 
     path('<slug:link>/', Summary,name='CreateAssignment-summary'),
 
-    path('',LinkCreate,name='CreateAssignment-home'),
+    path('create',LinkCreate,name='CreateAssignment-home'),
+
+    path('',asummary,name='Summary-Assignment'),     
 
     path('<slug:link>/edit/',LinkEdit ,name='CreateAssignment-edit'),
 

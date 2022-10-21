@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{%load static%}
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    </style>
+
+<body>  
+<form method="POST" enctype="multipart/form-data" >  
+    {% csrf_token %}  
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <a href='./create' id="addquestion">
+        <i class='bx bxs-edit-alt'></i>
+        <p>Create Assignment</p></a>
+ 
+    <table>
+    <tr> <th>Assignment Name</th> <th>Course name</th> <th>link</th></tr>
+    {% for each in simple %}
+    <tr>
+        <td>{{each.assignment_name}}</td>
+        <td>{{each.course_name}}</td>
+        <td>{{each.link}}
+         </tr>
+    {% endfor %}
+</table>
+    
+</form>  
+</body>  
+</html>
+
+
+
+
+
