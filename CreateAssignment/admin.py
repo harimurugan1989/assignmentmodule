@@ -1,7 +1,8 @@
-from django.contrib import admin
-from . models import createlink,Instruction,Question,Profile,Student
 
-admin.site.register(createlink)
+from django.contrib import admin
+from . models import CreateLink,Instruction,Question,Profile,Student
+
+admin.site.register(CreateLink)
 admin.site.register(Instruction)
 admin.site.register(Question)
 admin.site.register(Profile)
