@@ -10,3 +10,5 @@ from .question_edit import QuestionEdit
 from .register import Register
 from .summary import Summary
 from .take_assignment import TakeAssignment
+from .sub_question_add import SubQuestionAdd
+from .sub_question_save import SubQuestionSave
