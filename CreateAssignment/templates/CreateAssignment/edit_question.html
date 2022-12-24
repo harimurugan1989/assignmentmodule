@@ -27,18 +27,38 @@
             margin-top: 10px;
 
         }
+
+        img {
+            margin: auto;
+        }
     </style>
 </head>
 
 <body>
     <form method="POST">
-        {% csrf_token %}        
-        <hr>
-        <textarea name="question" id="ques" cols="100" rows="3"
-            placeholder="Write question here ...">{{question}}</textarea>
-        <br>
+        {% csrf_token %}
+
+        <div class="question">
+            <hr>
+            {%for each in questions%}
+            <div class="tb">
+                {{each|safe}}
+                <br>
+            </div>
+            {%endfor%}
+            <br>
+        </div>
         Marks: <span id="score" style="font-size: large;font-family: fantasy;color:red"></span>
         <br>
+
+
+
+        <img id='ig' src="" alt="">
+
+        <button type="button" id='add_text_question'>Add Text in Question</button>
+        <input type="file" name="add_image_question" id="add_img_question" placeholder="Add Image" accept="image/*"
+            enctype="multipart/form-data">
+        <button type="button" id='add_image_question'>Add Image in Question</button>
         <hr>
         <button type="button" id='add_sub_question'>Add Sub Question</button>
 
@@ -120,9 +140,24 @@
                 }
             })
     });
-    
 
-    // function savedata(token){
+    function delete_it(id, dlt) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "./delete-it",
+                data: {
+                    "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
+                    "id": id,
+                    "type": dlt,
+                },
+                success: function (data) {
+                    console.log("True");
+                }
+            })
+    }
+
+
     $(".submitb").click(function () {
         $.ajax(
             {
@@ -131,7 +166,7 @@
                 data: {
                     'data': savedata(),
                     "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
-            },
+                },
                 success: function (data) {
                     if (data["status"]) {
                         console.log('updated');
@@ -142,7 +177,54 @@
             })
 
     });
+
+    $("#add_text_question").click(function () {
+        $.ajax(
+            {
+                type: "GET",
+                url: "./add-text-box",
+
+                success: function (data) {
+                    if (data["status"]) {
+                        for (let i = 0; i < document.getElementsByName("question").length; i++) {
+                            document.getElementsByName("question")[i].innerText = document.getElementsByName("question")[i].value;
+                        }
+                        document.getElementsByClassName("question")[0].innerHTML += `
+                        <textarea class = 'que' name ='question' data-id = "`+ data["id"] + `"></textarea>
+                        `;
+                    }
+                }
+            })
+    });
+    $("#add_image_question").click(function () {
+
+        const file = document.getElementById('add_img_question').files[0];
+        let formData = new FormData();
+        var token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        formData.append('img', file);
+        formData.append('csrfmiddlewaretoken', token);
+        $.ajax(
+            {
+                url: "./add-image-question",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data["status"]);
+                    // document.getElementById("ig").src = "../../../../../media/"+data["address"];
+                }
+            })
+
+        // console.log(formData);
+
+    });
+
+
+
+    // function question_save() {
     // }
+
 
     function savedata() {
         subquestions = []
@@ -153,9 +235,10 @@
         let explanation = document.getElementsByName("explanation");
         let score = document.getElementsByName("score");
 
+
+        // subquestion part
         for (let i = 0; i < leng; i++) {
             temp = {};
-            // id = 
             temp["id"] = ids[i].value;
             temp["text"] = text[i].value;
             temp["answer"] = answer[i].value;
@@ -164,29 +247,35 @@
             subquestions.push(temp);
         }
 
+        //question parts
+        let ques = document.getElementsByClassName('que')
+        questions = []
+        for (let i = 0; i < ques.length; i++) {
+            questions.push(ques[i].value)
+        }
+
+        //returning part
         output = {
             "subquestions": subquestions,
             "question": document.getElementsByName("question")[0].value,
+            "boxes": questions,
         };
-        console.log("from here: ")
-        console.log(JSON.stringify(output))
         return JSON.stringify(output);
     }
 
-    function updateMarks(){
-        let it =0;
+    function updateMarks() {
+        let it = 0;
         let score = document.getElementsByName("score");
-        for(let i = 0 ; i <score.length;i++){
-            if(score[i].length != 0){
+        for (let i = 0; i < score.length; i++) {
+            if (score[i].length != 0) {
                 it += parseInt(score[i].value);
             }
-            
+
         }
-        console.log(it);
         document.getElementById("score").innerText = it;
     }
 
-setInterval(updateMarks,400);
+    setInterval(updateMarks, 400);
 
 </script>
 

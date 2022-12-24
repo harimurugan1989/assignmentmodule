@@ -12,9 +12,7 @@ def randnumber(a,b):
 @login_required
 def Summary(request,link):
     user_type = Profile.objects.filter(user = request.user).first().type
-    if user_type == 't':
-
-        
+    if user_type == 't':        
         return render(request,"CreateAssignment/summary.html")
     else:
         return JsonResponse({"status":"not doing"})
