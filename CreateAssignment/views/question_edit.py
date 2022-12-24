@@ -1,24 +1,37 @@
-import datetime 
-from django.contrib import messages
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User
-from CreateAssignment.models import Question, CreateLink, Instruction, Profile, Student
-from django.shortcuts import redirect, render
+from CreateAssignment.models import Question,QueImg,QueText
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from CreateAssignment.models.subquestions import SubQuestion
+import json
+
 
 @login_required
 def QuestionEdit(request,link,qno):
-    codes_id=CreateLink.objects.filter(link=link).first()
-    ques = Question.objects.filter(assignment_id=codes_id.id).all()
-    id_first=ques.values_list('id',flat=True).first()
-    change = Question.objects.filter(id=id_first+qno-1).first()
-    if request.method == "POST":
-        change.question = request.POST["question"]
-        change.rand_variable_min=request.POST["rand_variable_min"]
-        change.rand_variable_max=request.POST["rand_variable_max"]
-        change.explanation = request.POST["explanation"]
-        change.save()
-        messages.success(request,f"Question has been updated successfully!")
-        return redirect("../../")    
-    return render(request,"CreateAssignment/edit_question.html",{"questions":change})
+    subquestions = SubQuestion.objects.filter(question_id = qno).all()
+    arr = []
+    it = Question.objects.filter(id = qno).first().order
+    for i in json.loads(it):
+        if(i["type"] == 't'):
+            arr.append("<textarea class = \'que\' name =\'question\' >"+ str(QueText.objects.filter(id = i["id"]).first().text)+"</textarea> <input type ='button' onclick = delete_it("+str(i["id"])+",1) value = 'DELETE' >")
+        else:
+            arr.append("<img height = \'100px\' src=\'./../../../../../media/"+str(QueImg.objects.filter(id = i["id"]).first().image)+"\'> <input type ='button' onclick = delete_it("+str(i["id"])+",2) value = 'DELETE' >")
+    print(arr)
+    return render(
+        request,
+        "CreateAssignment/edit_question.html",
+        {
+            "subquestions":subquestions,
+            "questions": arr,
+        }
+    )
+
+
+
+'''
+[
+    {
+        "type" : t/i,
+        "id" : ,
+    },   
+]
+'''
