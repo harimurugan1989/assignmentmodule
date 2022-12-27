@@ -31,6 +31,16 @@
         img {
             margin: auto;
         }
+
+        .sec {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .random {
+            display: flex;
+        }
     </style>
 </head>
 
@@ -52,7 +62,29 @@
         <br>
 
 
+        <hr>
 
+        <div class="random_section">
+            <span id="msg_ran"></span>
+            <div class="sec">
+                <input type="text" name="min_val" placeholder="min_val">
+                <input type="text" name="max_val" placeholder="max_val">
+                <button type="button" id="generate_random">
+                    Generate Random
+                </button>
+            </div>
+            <div class="randoms">
+                {%for random in randoms%}
+                <div class="random">
+                    var_num : {{random.var_number}}
+                    <input type="text" name="min_val" placeholder="min_val" value={{random.min_num}}>
+                    <input type="text" name="max_val" placeholder="max_val" value={{random.max_num}}>
+                    <button type="button" class="Delete_random">Delete_Variable</button>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        <hr>
         <img id='ig' src="" alt="">
 
         <button type="button" id='add_text_question'>Add Text in Question</button>
@@ -93,6 +125,48 @@
     
 </script> -->
 <script>
+    // $('.delete_random').click(function(){
+
+    //     $.ajax(
+    //         {
+    //             type:"GET",
+    //             url: "./delete-random",
+    //             // success
+    //         }
+    //     )
+    // })
+
+
+    $('#generate_random').click(function () {
+        $.ajax(
+            {
+                type: "POST",
+                url: "./generate-random",
+                data: {
+                    "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
+                    "min_val": document.getElementsByName("min_val")[0].value,
+                    "max_val": document.getElementsByName("max_val")[0].value,
+                },
+                success: function (data) {
+                    if (data["status"]) {
+                        let randoms = $(".randoms").innerHTML
+                        let add = `
+                            <div class = "random">
+                                var_num : ${data["var_num"]}
+                                <input type="text" name="min_val" placeholder="min_val" value = ${data["min_val"]} >
+                                <input type="text" name="max_val" placeholder="max_val" value = ${data["max_val"]}>
+                                <button type="button" class="Delete_random">Delete_Variable</button>   
+                            </div>
+                        `
+                        $(".randoms").innerHTML = randoms + add;
+                    } else {
+                        console.log("hehe")
+                        document.getElementById("msg_ran").innerText = data["msg"]
+                    }
+                }
+            })
+    })
+
     $('#add_sub_question').click(function () {
         $.ajax(
             {
@@ -120,7 +194,7 @@
 
 
                         already = document.getElementById("subquestions").innerHTML;
-                        addone = ` 
+                        let addone = ` 
                     <hr>
                     <div class="subquestion">
                         <input type="hidden" name = "sq_id" value= "${data.id}">
