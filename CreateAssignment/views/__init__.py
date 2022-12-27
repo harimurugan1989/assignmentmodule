@@ -16,3 +16,5 @@ from .question_add_textbox import QuestionAddTextbox
 from .question_add_image import QuestionAddImage
 from .question_delete_box import QuestionDeleteBox
 from .random_num_add import RandomNumberAdd
+from .random_num_delete import RandomNumberDelete
+from .random_number_edit import RandomNumberEdit

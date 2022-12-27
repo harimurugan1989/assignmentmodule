@@ -10,10 +10,7 @@ from django.contrib import messages
 @login_required
 def QuestionDelete(request,link,qno):
     if request.method =='POST':
-        codes_id=CreateLink.objects.filter(link=link).first()
-        ques = Question.objects.filter(assignment_id=codes_id.id).all()
-        id_first=ques.values_list('id',flat=True).first()
-        Question.objects.filter(id = id_first+qno-1).first().delete()
+        ques = Question.objects.filter(id=qno).first().delete()
         messages.success(request,f"Question has been deleted successfully!")
         return redirect('../../')
     return render(request,"CreateAssignment/delete_question.html")

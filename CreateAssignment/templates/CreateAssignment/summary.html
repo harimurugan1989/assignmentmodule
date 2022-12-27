@@ -33,6 +33,18 @@
     <a href='edit/' id="edit">
             <p>Assignment Settings</p>
     </a>
+
+    <hr>
+    <h1> Questions start here </h1>
+    <hr>
+    {%for each in front%}
+        <center>
+            {{each.que|safe}}<br>
+            <a href="./edit_question/{{each.id}}">Edit</a>
+            <a href="./delete_question/{{each.id}}">Delete</a>
+            <hr>
+        </center>
+    {%endfor%}
     
 </body>
 </html>
