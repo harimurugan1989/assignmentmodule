@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- <link rel="stylesheet" href="styles/panel.css" />
-    <link rel="stylesheet" href="style.css" /> -->
-
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <script
+{% extends "../navbar/index.html" %}{%load static %}
+{% block content %}
+  <script
       src="https://kit.fontawesome.com/795d42cca3.js"
       crossorigin="anonymous"
     ></script>
@@ -31,227 +11,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <header>
-      <img
-        class="logo"
-        src="./images/Aim2Crack-logo-1.png"
-        alt="logo"
-        title="home"
-      />
-
-      <nav class="main-menu">
-        <ul class="nav_links">
-          <li><a href="#">Home</a></li>
-
-          <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Quizzes</a>
-            <div class="dropdown-content">
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Create Quiz</span>
-                <small>and analyze results</small>
-              </a>
-              <a class="nav-subjective-btn" target="_blank">
-                <span>Subjective Quiz</span>
-                <small>See past results</small>
-              </a>
-              <a class="nav-placement-btn" target="_blank">
-                <span>Placement Quiz</span>
-                <small>See past results</small>
-              </a>
-            </div>
-          </li>
-
-          <!-- DROPDOWN - HR, Interviews, Aptitude -->
-          <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Placements</a>
-            <div class="dropdown-content">
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>HR Questions</span>
-                <small>abc</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Interviews</span>
-                <small>abc</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Puzzles</span>
-                <small>abc</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Apt Crack</span>
-                <small>abc</small>
-              </a>
-            </div>
-          </li>
-
-          <li><a href="#">Talks</a></li>
-
-          <!-- DROPDOWN - About Us, Meet Our Team, Contact Us -->
-          <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">About</a>
-            <div class="dropdown-content">
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>About Us</span>
-                <small>Know our story</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Team</span>
-                <small>Meet our superheroes</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Contact</span>
-                <small>Join us/Reach us</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Resources</span>
-                <small>Tutorials and more</small>
-              </a>
-            </div>
-          </li>
-
-          <!-- SEARCH BAR on CLICKING SEARCH ICON -->
-        </ul>
-      </nav>
-
-      <div class="click-dropdown profile-dropdown">
-        <button onclick="myFunction()" class="click-dropbtn">
-          <a>
-            <span class="material-icons md-24"> person </span>
-            <p class="profile">Profile</p>
-            <span class="material-icons-outlined"> expand_more </span>
-          </a>
-        </button>
-        <div id="myDropdown" class="click-dropdown-content toggle-dd">
-          <a href="https://www.instagram.com/" target="_blank">
-            <span class="btn-txt">Account</span>
-            <span class="material-icons-outlined md-18"> manage_accounts </span>
-          </a>
-          <a href="https://www.instagram.com/" target="_blank">
-            <span class="btn-txt">Logout</span>
-            <span class="material-icons-outlined md-18"> logout </span>
-          </a>
-        </div>
-      </div>
-
-      <span
-        class="ham"
-        style="font-size: 30px; cursor: pointer"
-        onclick="openNav()"
-        >&#9776;</span
-      >
-    </header>
-
-    <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
-        >&times;</a
-      >
-      <nav class="main-menu-1">
-        <ul class="nav_links">
-          <li><a href="#">Home</a></li>
-
-          <li class="dropdown toggle-dd">
-            <a href="javascript:void(0)" class="dropbtn">Quizzes</a>
-            <div class="dropdown-content">
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Create Quiz</span>
-                <small>and analyze results</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Subjective Quiz</span>
-                <small>See past results</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Placement Quiz</span>
-                <small>See past results</small>
-              </a>
-            </div>
-          </li>
-
-          <!-- DROPDOWN - HR, Interviews, Aptitude -->
-          <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">Placements</a>
-            <div class="dropdown-content">
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>HR Questions</span>
-                <small>abc</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Interviews</span>
-                <small>abc</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Puzzles</span>
-                <small>abc</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Apt Crack</span>
-                <small>abc</small>
-              </a>
-            </div>
-          </li>
-
-          <li><a href="#">Talks</a></li>
-
-          <!-- DROPDOWN - About Us, Meet Our Team, Contact Us -->
-          <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn">About</a>
-            <div class="dropdown-content">
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>About Us</span>
-                <small>Know our story</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Team</span>
-                <small>Meet our superheroes</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Contact</span>
-                <small>Join us/Reach us</small>
-              </a>
-              <a href="https://www.instagram.com/" target="_blank">
-                <span>Resources</span>
-                <small>Tutorials and more</small>
-              </a>
-            </div>
-          </li>
-
-          <li><a href="#">Account</a></li>
-          <li><a href="#">Logout</a></li>
-
-          <!-- SEARCH BAR on CLICKING SEARCH ICON -->
-        </ul>
-      </nav>
-
-      <!-- <div class="click-dropdown">
-          <button onclick="myFunction()" class="click-dropbtn">
-              <a class="click-dropbtn-a" style="display: flex;">
-                  <span class="material-icons md-24">
-                      person
-                  </span>
-                  <p class="profile">
-                      Profile
-                  </p>
-                  <span class="material-icons-outlined">
-                      expand_more
-                  </span>
-              </a>
-          </button>
-          <div id="myDropdown" class="click-dropdown-content">
-              <a class="click-dropdown-content-a" href="https://www.instagram.com/" target="_blank">
-                  <span class="btn-txt">Account</span>
-                  <span class="material-icons-outlined md-18">
-                      manage_accounts
-                  </span>
-              </a>
-              <a class="click-dropdown-content-a" href="https://www.instagram.com/" target="_blank">
-                  <span class="btn-txt">Logout</span>
-                  <span class="material-icons-outlined md-18">
-                      logout
-                  </span>
-              </a>
-          </div>
-      </div> -->
-    </div>
     <style>
       /* NAVBAR */
       @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap");
@@ -1244,7 +1003,7 @@
             </div>
             <div class="btn">
               <button  class="upload-button">
-                <a href='./create' id="addquestion"?
+                <a href='./create' id="addquestion"
                   <p>Create Assignment</p></a>
                 <i class="fa fa-upload" aria-hidden="true"></i>
               </button>
@@ -1395,7 +1154,7 @@
       localStorage.setItem("last-active-panel", panelNumber);
     }
   </script>
-</html>
+{% endblock %}
 
 <!-- 
     <li>
