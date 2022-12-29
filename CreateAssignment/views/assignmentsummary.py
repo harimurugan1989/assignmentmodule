@@ -17,4 +17,4 @@ def asummary(request):
     pro=Profile.objects.filter(user=request.user).first()
     if pro.type=='t':
         codes=CreateLink.objects.filter(creator=request.user).all()
-        return render(request, "CreateAssignment/assignview.html", {"simple": codes})
+        return render(request, "CreateAssignment/safebook.html", {"simple": codes})

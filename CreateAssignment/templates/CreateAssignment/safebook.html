@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- <link rel="stylesheet" href="styles/panel.css" />
+    <link rel="stylesheet" href="style.css" /> -->
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/795d42cca3.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+
+    <header>
+      <img
+        class="logo"
+        src="./images/Aim2Crack-logo-1.png"
+        alt="logo"
+        title="home"
+      />
+
+      <nav class="main-menu">
+        <ul class="nav_links">
+          <li><a href="#">Home</a></li>
+
+          <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Quizzes</a>
+            <div class="dropdown-content">
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Create Quiz</span>
+                <small>and analyze results</small>
+              </a>
+              <a class="nav-subjective-btn" target="_blank">
+                <span>Subjective Quiz</span>
+                <small>See past results</small>
+              </a>
+              <a class="nav-placement-btn" target="_blank">
+                <span>Placement Quiz</span>
+                <small>See past results</small>
+              </a>
+            </div>
+          </li>
+
+          <!-- DROPDOWN - HR, Interviews, Aptitude -->
+          <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Placements</a>
+            <div class="dropdown-content">
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>HR Questions</span>
+                <small>abc</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Interviews</span>
+                <small>abc</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Puzzles</span>
+                <small>abc</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Apt Crack</span>
+                <small>abc</small>
+              </a>
+            </div>
+          </li>
+
+          <li><a href="#">Talks</a></li>
+
+          <!-- DROPDOWN - About Us, Meet Our Team, Contact Us -->
+          <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">About</a>
+            <div class="dropdown-content">
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>About Us</span>
+                <small>Know our story</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Team</span>
+                <small>Meet our superheroes</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Contact</span>
+                <small>Join us/Reach us</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Resources</span>
+                <small>Tutorials and more</small>
+              </a>
+            </div>
+          </li>
+
+          <!-- SEARCH BAR on CLICKING SEARCH ICON -->
+        </ul>
+      </nav>
+
+      <div class="click-dropdown profile-dropdown">
+        <button onclick="myFunction()" class="click-dropbtn">
+          <a>
+            <span class="material-icons md-24"> person </span>
+            <p class="profile">Profile</p>
+            <span class="material-icons-outlined"> expand_more </span>
+          </a>
+        </button>
+        <div id="myDropdown" class="click-dropdown-content toggle-dd">
+          <a href="https://www.instagram.com/" target="_blank">
+            <span class="btn-txt">Account</span>
+            <span class="material-icons-outlined md-18"> manage_accounts </span>
+          </a>
+          <a href="https://www.instagram.com/" target="_blank">
+            <span class="btn-txt">Logout</span>
+            <span class="material-icons-outlined md-18"> logout </span>
+          </a>
+        </div>
+      </div>
+
+      <span
+        class="ham"
+        style="font-size: 30px; cursor: pointer"
+        onclick="openNav()"
+        >&#9776;</span
+      >
+    </header>
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <nav class="main-menu-1">
+        <ul class="nav_links">
+          <li><a href="#">Home</a></li>
+
+          <li class="dropdown toggle-dd">
+            <a href="javascript:void(0)" class="dropbtn">Quizzes</a>
+            <div class="dropdown-content">
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Create Quiz</span>
+                <small>and analyze results</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Subjective Quiz</span>
+                <small>See past results</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Placement Quiz</span>
+                <small>See past results</small>
+              </a>
+            </div>
+          </li>
+
+          <!-- DROPDOWN - HR, Interviews, Aptitude -->
+          <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Placements</a>
+            <div class="dropdown-content">
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>HR Questions</span>
+                <small>abc</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Interviews</span>
+                <small>abc</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Puzzles</span>
+                <small>abc</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Apt Crack</span>
+                <small>abc</small>
+              </a>
+            </div>
+          </li>
+
+          <li><a href="#">Talks</a></li>
+
+          <!-- DROPDOWN - About Us, Meet Our Team, Contact Us -->
+          <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">About</a>
+            <div class="dropdown-content">
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>About Us</span>
+                <small>Know our story</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Team</span>
+                <small>Meet our superheroes</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Contact</span>
+                <small>Join us/Reach us</small>
+              </a>
+              <a href="https://www.instagram.com/" target="_blank">
+                <span>Resources</span>
+                <small>Tutorials and more</small>
+              </a>
+            </div>
+          </li>
+
+          <li><a href="#">Account</a></li>
+          <li><a href="#">Logout</a></li>
+
+          <!-- SEARCH BAR on CLICKING SEARCH ICON -->
+        </ul>
+      </nav>
+
+      <!-- <div class="click-dropdown">
+          <button onclick="myFunction()" class="click-dropbtn">
+              <a class="click-dropbtn-a" style="display: flex;">
+                  <span class="material-icons md-24">
+                      person
+                  </span>
+                  <p class="profile">
+                      Profile
+                  </p>
+                  <span class="material-icons-outlined">
+                      expand_more
+                  </span>
+              </a>
+          </button>
+          <div id="myDropdown" class="click-dropdown-content">
+              <a class="click-dropdown-content-a" href="https://www.instagram.com/" target="_blank">
+                  <span class="btn-txt">Account</span>
+                  <span class="material-icons-outlined md-18">
+                      manage_accounts
+                  </span>
+              </a>
+              <a class="click-dropdown-content-a" href="https://www.instagram.com/" target="_blank">
+                  <span class="btn-txt">Logout</span>
+                  <span class="material-icons-outlined md-18">
+                      logout
+                  </span>
+              </a>
+          </div>
+      </div> -->
+    </div>
+    <style>
+      /* NAVBAR */
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Lato:wght@400;700;900&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+      }
+
+      header {
+        display: flex;
+        height: 7vh;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 3%;
+        background: linear-gradient(316deg, #2a2323 60%, #50d8d7 130%);
+        background-color: #000;
+      }
+
+      img {
+        width: 250px;
+      }
+
+      .logo {
+        cursor: pointer;
+      }
+
+      /* MAIN NAV */
+
+      .nav_links {
+        list-style: none;
+      }
+
+      .nav_links li {
+        display: inline-block;
+        padding: 0px 10px;
+      }
+      .nav-subjective-btn:hover {
+        cursor: pointer;
+      }
+      .nav-placement-btn:hover {
+        cursor: pointer;
+      }
+      .nav_links li a,
+      .dropbtn {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        font-size: 18px;
+        color: #edf0f1;
+        text-decoration: none;
+        transition: all 0.3s ease 0s;
+      }
+
+      .nav_links li a:hover,
+      .dropdown:hover .dropbtn {
+        color: #50d8d7;
+      }
+
+      li.dropdown {
+        display: inline-block;
+        position: relative;
+      }
+
+      .dropbtn {
+        padding: 10px;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+
+        background-color: #000;
+        min-width: 180px;
+        padding: 10px 16px;
+
+        animation-name: fadeInUp;
+        -webkit-animation-name: fadeInUp;
+        animation-duration: 0.2s;
+        -webkit-animation-duration: 0.2s;
+        animation-fill-mode: both;
+        -webkit-animation-fill-mode: both;
+
+        box-shadow: 0 20px 25px rgb(0 0 0 / 20%) !important;
+        border-radius: 10px;
+        z-index: 4;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 10px 0px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+      }
+
+      .dropdown-content a span {
+        font-size: 16px;
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      .dropdown-content a small {
+        font-size: 11px;
+        color: #adafaf;
+        display: block;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      /* PROFILE BUTTON */
+
+      .click-dropbtn {
+        border: none;
+        cursor: pointer;
+      }
+
+      .click-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .click-dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #000;
+        padding: 10px 16px;
+        overflow: auto;
+        right: 0;
+        box-shadow: 0 20px 25px rgb(0 0 0 / 20%) !important;
+        border-radius: 10px;
+        z-index: 4;
+      }
+
+      .click-dropdown-content a {
+        font-family: "Montserrat", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: #edf0f1;
+        text-decoration: none;
+        display: block;
+        padding: 10px 0px;
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      .click-dropdown a:hover,
+      .click-dropdown a:active {
+        color: #50d8d7;
+      }
+
+      .click-dropdown-content-a {
+        font-family: "Montserrat", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: #edf0f1;
+        text-decoration: none;
+        display: block;
+        padding: 10px 0px;
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      .click-dropdown-a:hover,
+      .click-dropdown-a:active {
+        color: #50d8d7;
+      }
+
+      .btn-txt {
+        margin-right: 10px;
+      }
+
+      .show {
+        display: block;
+      }
+
+      .click-dropbtn a,
+      .click-dropbtn-a {
+        text-decoration: none;
+        font-size: 18px;
+        background-color: #000;
+        color: #fff;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      .click-dropbtn a span,
+      .click-dropbtn a p {
+        transition: all 0.3s ease 0s;
+      }
+
+      .click-dropbtn-a span,
+      .click-dropbtn-a p {
+        transition: all 0.3s ease 0s;
+      }
+
+      .profile {
+        margin-left: 5px;
+      }
+
+      button:hover a span,
+      button:hover a p {
+        color: #50d8d7;
+      }
+
+      /* GOOGLE FONTS ICONS */
+
+      /* ICONS-SIZE */
+      .material-icons.md-18 {
+        font-size: 18px;
+      }
+
+      .material-icons.md-24 {
+        font-size: 24px;
+      }
+
+      .material-icons.md-36 {
+        font-size: 36px;
+      }
+
+      .material-icons.md-48 {
+        font-size: 48px;
+      }
+
+      /* ICON-COLOR */
+      .material-icons.md-dark {
+        color: rgba(0, 0, 0, 0.54);
+      }
+
+      .material-icons.md-dark.md-inactive {
+        color: rgba(0, 0, 0, 0.26);
+      }
+
+      .material-icons.md-light {
+        color: rgb(255, 255, 255, 1);
+      }
+
+      .material-icons.md-light.md-inactive {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      /* ICONS-SIZE */
+      .material-icons-outlined.md-18 {
+        font-size: 18px;
+      }
+
+      .material-icons-outlined.md-24 {
+        font-size: 24px;
+      }
+
+      .material-icons-outlined.md-36 {
+        font-size: 36px;
+      }
+
+      .material-icons-outlined.md-48 {
+        font-size: 48px;
+      }
+
+      /* ICON-COLOR */
+      .material-icons-outlined.md-dark {
+        color: rgba(0, 0, 0, 0.54);
+      }
+
+      .material-icons-outlined.md-dark.md-inactive {
+        color: rgba(0, 0, 0, 0.26);
+      }
+
+      .material-icons-outlined.md-light {
+        color: rgb(255, 255, 255, 1);
+      }
+
+      .material-icons-outlined.md-light.md-inactive {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          transform: translate3d(0, 20%, 0);
+          visibility: visible;
+        }
+
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      /*  */
+      .ham {
+        display: none;
+      }
+
+      .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #000;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        display: none;
+      }
+
+      .sidenav a {
+        display: block;
+        padding: 16px;
+        text-decoration: none;
+        color: #fff;
+      }
+
+      .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+
+      @media screen and (max-width: 950px) {
+        .main-menu,
+        .profile-dropdown {
+          display: none;
+        }
+
+        .ham {
+          display: block;
+          color: white;
+        }
+
+        .ham:hover {
+          color: #50d8d7;
+        }
+
+        .nav_links li {
+          padding: 0px;
+          display: block;
+        }
+
+        .sidenav {
+          display: block;
+        }
+
+        .click-dropdown {
+          position: relative;
+        }
+
+        .click-dropdown-content {
+          position: absolute;
+          left: 0px;
+        }
+      }
+
+      @media screen and (max-width: 290px) {
+        .logo {
+          display: none;
+        }
+      }
+
+      /* SIDENAV */
+
+      .side-bar {
+        width: 240px;
+        height: 100%;
+        padding-top: 20px;
+        background-color: #ffffff;
+        overflow-x: hidden;
+        border-right: 2px solid black;
+      }
+
+      /* Style the side-bar Quizs and the dropdown button */
+      .side-bar a,
+      .side-bar h1,
+      .dropdown-btn,
+      .sidebar-btn {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: black;
+        display: block;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        outline: none;
+      }
+
+      .side-bar h1 {
+        font-size: x-large;
+      }
+
+      .side-bar a {
+        padding: 4px 8px 4px 28px;
+        font-size: 16px;
+      }
+
+      /* On mouse-over */
+      .side-bar a:hover,
+      .dropdown-btn:hover,
+      .sidebar-btn:hover {
+        color: rgb(68, 148, 148);
+      }
+
+      /* Add an active class to the active dropdown button */
+      .active {
+        color: rgb(68, 148, 148);
+      }
+
+      /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+      .dropdown-container {
+        display: none;
+        padding-left: 8px;
+      }
+
+      /* Optional: Style the caret down icon */
+      .fa-caret-down {
+        float: right;
+        padding-right: 8px;
+      }
+
+      /* PAGE */
+      body {
+        background-color: #eeeeee;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .flex-f-row {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .flex-f-col {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .w-100 {
+        width: 100vw;
+      }
+
+      .h-100 {
+        height: 100vh;
+      }
+
+      .w-33 {
+        width: 33.33%;
+      }
+
+      .w-16 {
+        width: 16.66%;
+      }
+
+      .w-8 {
+        width: 8.33%;
+      }
+
+      .panel-container {
+        height: 100%;
+        display: flex;
+      }
+
+      .panel {
+        width: 100%;
+        height: 93vh;
+        overflow-y: scroll;
+      }
+
+      .upload {
+        height: 6vh;
+        background: linear-gradient(316deg, #2a2323 60%, #50d8d7 130%);
+        display: flex;
+        color: white;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+      }
+
+      .upload:hover {
+        background-color: #dde6e6;
+        color: white;
+      }
+
+      .uploaded {
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+        font-size: 1.2rem;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .upload-button {
+        width: 10vw;
+        font-size: 1.2rem;
+        padding: 0.5em 0.8em;
+        background: linear-gradient(316deg, #2a2323 60%, #50d8d7 130%);
+        color: white;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        border-radius: 1.2rem;
+        margin-top: 1.3rem;
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+          rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        transition: all 160ms ease-in;
+      }
+
+      .upload-button:hover {
+        background: #355958;
+      }
+
+      .upload-button:active {
+        background: #355958;
+        transform: scale(0.95);
+      }
+
+      .heading-row {
+        display: flex;
+        flex-direction: row;
+        margin-top: 2rem;
+      }
+
+      .o-title {
+        margin-left: 1rem;
+        display: flex;
+        font-size: 0.9rem;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .safebook {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .uploaded-files {
+        border-top: 1px solid grey;
+        border-bottom: 1px solid grey;
+        background-color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-top: 0.2rem;
+      }
+      .fa-trash {
+        margin-left: 8rem;
+      }
+      .fa-pencil {
+        margin-left: 5.5rem;
+      }
+      .fa-user-shield {
+        margin-left: 3rem;
+      }
+      .fa-gears {
+        margin-left: 2rem;
+      }
+      .fa-rotate {
+        margin-left: 1.5rem;
+      }
+      .books-row {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .pdf-icon {
+        height: 50px;
+        width: 75px;
+        background-color: grey;
+        margin-left: 1.2rem;
+      }
+
+      .name-box {
+        justify-content: center;
+        margin-left: 1rem;
+      }
+
+      .file-name {
+        font-weight: 500;
+        font-size: 18px;
+        margin-bottom: 0.2rem;
+      }
+
+      .file-size {
+        margin-left: 0.2rem;
+        font-size: 12px;
+      }
+
+      .fa-file {
+        transform: rotate(0deg);
+        color: rgba(0, 0, 0, 0.495);
+      }
+      .m-date {
+        margin-left: -1rem;
+      }
+      .subject-name {
+        margin-left: -1.7rem;
+      }
+      .subject-name,
+      .m-date {
+        justify-content: center;
+        align-items: center;
+      }
+
+      .o-icons {
+        justify-content: center;
+        align-items: center;
+      }
+
+      .icons {
+        color: #355958;
+      }
+
+      .btn {
+        display: flex;
+        justify-content: center;
+      }
+
+      .options {
+        display: flex;
+        transition: all 0.5s ease-in-out;
+        height: 5vh;
+        margin-top: 3rem;
+        align-items: center;
+        font-weight: bold;
+      }
+
+      .select-options {
+        background-color: red;
+        width: 240px;
+        height: 100%;
+        position: fixed;
+        left: 0;
+      }
+    </style>
+    <script>
+      /* When the user clicks on the button, 
+      toggle between hiding and showing the dropdown content */
+      function myFunction() {
+        document.getElementsByClassName("toggle-dd").classList.toggle("show");
+      }
+
+      // Close the dropdown if the user clicks outside of it
+      window.onclick = function (event) {
+        if (!event.target.matches(".dropbtn")) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+              openDropdown.classList.remove("show");
+            }
+          }
+        }
+      };
+
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="h-100 w-100">
+      <div class="navbar-container"></div>
+      <div class="panel-container">
+        <div class="side-bar">
+          <h1>Dashboard</h1>
+
+          <button class="dropdown-btn">
+            Quiz
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            <a id="btn-subjective-quiz" href="#">Subjective Quiz</a>
+            <a id="btn-placement-quiz" href="#">Placement Quiz</a>
+          </div>
+          <button class="dropdown-btn">
+            Book
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            <a id="btn-your-books" href="#">Your Books</a>
+            <a id="btn-your-collections" href="#">Your Collections</a>
+          </div>
+
+          <button class="dropdown-btn">
+            Assignments
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            <a id="btn-assignment" href="#">Assignment</a>
+          </div>
+          <button class="dropdown-btn">
+            Tutorials
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            <a id="btn-assignment" href="#">Tutorial</a>
+          </div>
+
+          
+        </div>
+        <div class="panel">
+       
+          <!-- Placement Panel -->
+          <div class="panel-item parrkhi" id="panel-placement-quiz">
+            <div class="upload">
+              <p class="uploaded">PLACEMENT QUIZ</p>
+            </div>
+            <div class="btn">
+              <button class="upload-button">
+                Upload File
+                <i class="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="heading-row">
+              <div class="w-33 safebook">SAFEBOOK</div>
+              <div class="w-16 o-title">SUBJECT</div>
+              <div class="w-16 o-title">LAST MODIFIED</div>
+              <div class="w-8 o-title">VIEWS</div>
+              <div class="w-8 o-title">DELETE</div>
+              <div class="w-8 o-title">EDIT</div>
+              <div class="w-8 o-title">PRIVACY</div>
+              <div class="w-8 o-title">CUSTOMIZE</div>
+              <div class="w-8 o-title">REFRESH</div>
+              <div class="w-8 o-title">SHARE</div>
+            </div>
+            <div class="uploaded-files">
+              <div class="books-row">
+                <div class="w-33 flex-f-row">
+                  <div class="pdf-icon"></div>
+                  <div class="name-box flex-f-col">
+                    <p class="file-name">Introduction to Machine Learning</p>
+                    <div class="flex-f-row">
+                      <i class="fa-solid fa-file"></i>
+                      <i class="file-size">159 Pages</i>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-4 flex-f-row subject-name">
+                  <p>EMF Theory</p>
+                </div>
+                <div class="w-16 flex-f-row m-date">
+                  <p>Aug 23,2022</p>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-trash fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-pencil icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-user-shield fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-gears icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-rotate fa-xl icons"></i>
+                </div>
+
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-share-alt fa-xl icons"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Placement quiz Panel end -->
+          <!-- Subjective quiz Panel -->
+          <div class="panel-item" id="panel-subjective-quiz">
+            <div class="upload">
+              <p class="uploaded">SUBJECTIVE QUIZ</p>
+            </div>
+            <div class="btn">
+              <button class="upload-button">
+                Upload File
+                <i class="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="heading-row">
+              <div class="w-33 safebook">SAFEBOOK</div>
+              <div class="w-16 o-title">SUBJECT</div>
+              <div class="w-16 o-title">LAST MODIFIED</div>
+              <div class="w-8 o-title">VIEWS</div>
+              <div class="w-8 o-title">DELETE</div>
+              <div class="w-8 o-title">EDIT</div>
+              <div class="w-8 o-title">PRIVACY</div>
+              <div class="w-8 o-title">CUSTOMIZE</div>
+              <div class="w-8 o-title">REFRESH</div>
+              <div class="w-8 o-title">SHARE</div>
+            </div>
+            <div class="uploaded-files">
+              <div class="books-row">
+                <div class="w-33 flex-f-row">
+                  <div class="pdf-icon"></div>
+                  <div class="name-box flex-f-col">
+                    <p class="file-name">Introduction to Machine Learning</p>
+                    <div class="flex-f-row">
+                      <i class="fa-solid fa-file"></i>
+                      <i class="file-size">159 Pages</i>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-4 flex-f-row subject-name">
+                  <p>EMF Theory</p>
+                </div>
+                <div class="w-16 flex-f-row m-date">
+                  <p>Aug 23,2022</p>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-trash fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-pencil icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-user-shield fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-gears icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-rotate fa-xl icons"></i>
+                </div>
+
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-share-alt fa-xl icons"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Subjective quiz Panel end -->
+
+          <!-- Your Books Panel -->
+          <div class="panel-item" id="panel-your-books">
+            <div class="upload">
+              <p class="uploaded">
+                SAFEBOOK : Safest Way to Share your material
+              </p>
+            </div>
+            <div class="btn">
+              <button class="upload-button">
+                Upload File
+                <i class="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="heading-row">
+              <div class="w-33 safebook">SAFEBOOK</div>
+              <div class="w-16 o-title">SUBJECT</div>
+              <div class="w-16 o-title">LAST MODIFIED</div>
+              <div class="w-8 o-title">VIEWS</div>
+              <div class="w-8 o-title">DELETE</div>
+              <div class="w-8 o-title">EDIT</div>
+              <div class="w-8 o-title">PRIVACY</div>
+              <div class="w-8 o-title">CUSTOMIZE</div>
+              <div class="w-8 o-title">REFRESH</div>
+              <div class="w-8 o-title">SHARE</div>
+            </div>
+            <div class="uploaded-files">
+              <div class="books-row">
+                <div class="w-33 flex-f-row">
+                  <div class="pdf-icon"></div>
+                  <div class="name-box flex-f-col">
+                    <p class="file-name">Introduction to Machine Learning</p>
+                    <div class="flex-f-row">
+                      <i class="fa-solid fa-file"></i>
+                      <i class="file-size">159 Pages</i>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-4 flex-f-row subject-name">
+                  <p>EMF Theory</p>
+                </div>
+                <div class="w-16 flex-f-row m-date">
+                  <p>Aug 23,2022</p>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-trash fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-pencil icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-user-shield fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-gears icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-rotate fa-xl icons"></i>
+                </div>
+
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-share-alt fa-xl icons"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Your Books end -->
+
+          <!-- Your Collections Panel -->
+          <div class="panel-item" id="panel-your-collections">
+            <div class="upload">
+              <p class="uploaded">YOUR COLLECTIONS</p>
+            </div>
+            <div class="btn">
+              <button class="upload-button">
+                Upload File
+                <i class="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="heading-row">
+              <div class="w-33 safebook">SAFEBOOK</div>
+              <div class="w-16 o-title">SUBJECT</div>
+              <div class="w-16 o-title">LAST MODIFIED</div>
+              <div class="w-8 o-title">VIEWS</div>
+              <div class="w-8 o-title">DELETE</div>
+              <div class="w-8 o-title">EDIT</div>
+              <div class="w-8 o-title">PRIVACY</div>
+              <div class="w-8 o-title">CUSTOMIZE</div>
+              <div class="w-8 o-title">REFRESH</div>
+              <div class="w-8 o-title">SHARE</div>
+            </div>
+            <div class="uploaded-files">
+              <div class="books-row">
+                <div class="w-33 flex-f-row">
+                  <div class="pdf-icon"></div>
+                  <div class="name-box flex-f-col">
+                    <p class="file-name">Introduction to Machine Learning</p>
+                    <div class="flex-f-row">
+                      <i class="fa-solid fa-file"></i>
+                      <i class="file-size">159 Pages</i>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-4 flex-f-row subject-name">
+                  <p>EMF Theory</p>
+                </div>
+                <div class="w-16 flex-f-row m-date">
+                  <p>Aug 23,2022</p>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-trash fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-pencil icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-user-shield fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-gears icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-rotate fa-xl icons"></i>
+                </div>
+
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-share-alt fa-xl icons"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Your Collections end -->
+
+          <!-- Assignments start -->
+          <div class="panel-item" id="panel-assignment">
+            <div class="upload">
+              <p class="uploaded">
+                Assignment
+              </p>
+            </div>
+            <div class="btn">
+              <button  class="upload-button">
+                <a href='./create' id="addquestion"?
+                  <p>Create Assignment</p></a>
+                <i class="fa fa-upload" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="heading-row">
+              <div class="w-16 safebook">ASSIGNMENT</div>
+              <div class="w-16 o-title">SUBJECT</div>
+              <div class="w-16 o-title">SUBMISSION DATE</div>
+              <div class="w-8 o-title">SUBMISSION</div>
+              <div class="w-8 o-title">DELETE</div>
+              <div class="w-8 o-title">EDIT</div>
+              <div class="w-8 o-title">PRIVACY</div>
+              <div class="w-8 o-title">CUSTOMIZE</div>
+              <div class="w-8 o-title">REFRESH</div>
+              <div class="w-8 o-title">SHARE</div>
+            </div>
+
+          {% for each in simple %}
+            <div class="uploaded-files">
+              <div class="books-row">
+                <div class="w-16 flex-f-row">
+                  <div class="name-box flex-f-col">
+                    <td><p class="file-name">{{each.assignment_name}}</p></td>
+                    <div class="flex-f-row">
+                    </div>
+                  </div>
+                </div>
+                <div class="w-16 flex-f-row subject-name">
+                  <td></td><p>{{each.course_name}}</p></td>
+                </div>
+                <div class="w-16 flex-f-row m-date">
+                  <td> <p>{{each.first_sub_time}}</p></td>
+                </div>
+                
+                <div class="w-16 flex-f-row m-date">
+                  <td> <p>{{each.link}}</p></td>
+                </div>
+
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-trash fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-pencil icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-user-shield fa-xl icons"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa fa-gears icons fa-xl"></i>
+                </div>
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fa-solid fa-rotate fa-xl icons"></i>
+                </div>
+
+                <div class="w-8 flex-f-row o-icons">
+                  <i class="fas fa-share-alt fa-xl icons"></i>
+                </div>
+              </div>
+          
+            </div>
+            {% endfor %}
+          </div>
+          <!-- Assignments-end -->
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        } else {
+          dropdownContent.style.display = "block";
+        }
+      });
+    }
+    $(document).ready(function () {
+      const panelIds = [
+        "",
+        "#btn-subjective-quiz",
+        "#btn-placement-quiz",
+        "#btn-your-books",
+        "#btn-your-collections",
+        "#btn-assignment",
+      ];
+      hideAll();
+      $("#panel-default").fadeIn(300);
+
+      $("#btn-subjective-quiz").click(function (e) {
+        e.preventDefault();
+        hideAll();
+        $("#panel-subjective-quiz").fadeIn(300);
+        updateActivePanel(1);
+      });
+      $(".nav-subjective-btn").click(function (e) {
+        e.preventDefault();
+        hideAll();
+        $("#panel-subjective-quiz").fadeIn(300);
+        updateActivePanel(1);
+      });
+      $("#btn-placement-quiz").click(function (e) {
+        e.preventDefault();
+        hideAll();
+        $("#panel-placement-quiz").fadeIn(300);
+        updateActivePanel(2);
+      });
+      $(".nav-placement-btn").click(function (e) {
+        e.preventDefault();
+        hideAll();
+        $("#panel-placement-quiz").fadeIn(300);
+        updateActivePanel(2);
+      });
+      $("#btn-your-books").click(function (e) {
+        e.preventDefault();
+        hideAll();
+        $("#panel-your-books").fadeIn(300);
+        updateActivePanel(3);
+      });
+      $("#btn-your-collections").click(function (e) {
+        e.preventDefault();
+        hideAll();
+        $("#panel-your-collections").fadeIn(300);
+        updateActivePanel(4);
+      });
+      $("#btn-assignment").click(function (e) {
+        e.preventDefault();
+        hideAll();
+        $("#panel-assignment").fadeIn(300);
+        updateActivePanel(5);
+      });
+
+      let activePanel = Number(localStorage.getItem("last-active-panel"));
+      let activePanelId = panelIds[activePanel];
+      $(activePanelId).click();
+    });
+
+    function hideAll() {
+      $(".panel-item").hide();
+    }
+    function updateActivePanel(panelNumber) {
+      localStorage.setItem("last-active-panel", panelNumber);
+    }
+  </script>
+</html>
+
+<!-- 
+    <li>
+        <span class="material-icons-outlined md-48 md-light">&#xE88a;</span>
+    </li> 
+-->
