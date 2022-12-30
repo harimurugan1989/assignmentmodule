@@ -76,14 +76,13 @@
             <div class="randoms">
                 {%for random in randoms%}
                 <div class="random">
-                    var_num : {{random.var_number}}
+                    var_num : <span class="var-num">{{random.var_number}} </span>
                     <input type="text" name="minVal" placeholder="min_val" value={{random.min_num}}>
                     <input type="text" name="maxVal" placeholder="max_val" value={{random.max_num}}>
                     <button type="button" class="delete_random">Delete_Variable</button>
                 </div>
                 {%endfor%}
             </div>
-
             <button type="button" id="update_random">Update Variables</button>
         </div>
         <hr>
@@ -125,13 +124,12 @@
 <script>
 
     $("#update_random").click(function () {
-        console.log("yes")
         let min_val = "", max_val = "";
         mins = document.getElementsByName("minVal");
         maxs = document.getElementsByName("maxVal");
         for (let i = 0; i < mins.length; i++) {
-            min_val+=","+mins[i].value;
-            max_val+=","+maxs[i].value;
+            min_val += "," + mins[i].value;
+            max_val += "," + maxs[i].value;
         }
 
         $.ajax({
@@ -139,8 +137,8 @@
             url: "./edit-random",
             data: {
                 "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
-                "min_vals": min_val.substr(1,min_val.length-1),
-                "max_vals": max_val.substr(1,max_val.length-1),
+                "min_vals": min_val.substr(1, min_val.length - 1),
+                "max_vals": max_val.substr(1, max_val.length - 1),
             },
             success: function (data) {
                 console.log(data)
@@ -149,27 +147,35 @@
     })
 
     let dlt_rndm_btns = document.querySelectorAll(".delete_random");
-    dlt_rndm_btns.forEach((btn, index) => {
-        btn.addEventListener("click", function (e) {
-            $.ajax(
-                {
-                    type: "POST",
-                    url: "./delete-random",
-                    data: {
-                        "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
-                        "var_num": index + 1,
-                    },
-                    success: function (data) {
-                        if (data["status"] == true) {
-                            location.reload();
+    for (let i = 0; i < dlt_rndm_btns.length; i++) {
+        dlt_rndm_btns[i].addEventListener("click", (event) => { delete_random(event); });
+    }
 
-                        }
+    function delete_random(event) {
+        var index = -1
+        var randoms, random;
+        if (event.target.tagName === 'BUTTON') {
+            const button = event.target;
+            random = button.parentNode;
+            randoms = random.parentNode;
+            index = Array.prototype.indexOf.call(randoms.children, random);
+        }
+        $.ajax(
+            {
+                type: "POST",
+                url: "./delete-random",
+                data: {
+                    "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
+                    "var_num": index + 1,
+                },
+                success: function (data) {
+                    if (data["status"] == true) {
+                        randoms.removeChild(random);
                     }
                 }
-            )
-        });
-    })
-
+            }
+        )
+    };
 
     $('#generate_random').click(function () {
         $.ajax(
@@ -193,6 +199,15 @@
                             </div>
                             `
                         $(".randoms")[0].innerHTML = randoms + add;
+                        let it = document.getElementsByClassName("delete_random");
+                        for (let i = 0; i < it.length; i++) {
+                            it[i].addEventListener("click", (event) => {
+                                delete_random(event, i);
+                            });
+
+                        }
+                        console.log("some it: ", it[it.length - 1]);
+
                     } else {
                         document.getElementById("msg_ran").innerText = data["msg"]
                     }
