@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aim2Crack-Assignment</title>
     <style>
-    h1 {text-align: center;}
-    p {text-align: center;}
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+        }
     </style>
 </head>
+
 <body>
     {% if messages %}
     {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
     {% endfor %}
     {% endif %}
     <h1>{{assign.assignment_name}}</h1>
@@ -22,29 +29,41 @@
     </a>
     <p>
         {% for each in content.questions %}
-        {{each.ques_num}}.&nbsp;{{ each.question }} <a href='edit_question/{{each.ques_num}}/'>Edit</a> &nbsp;<a href='delete_question/{{each.ques_num}}/'>Delete</a><br>
-        {% endfor %} 
+        {{each.ques_num}}.&nbsp;{{ each.question }}
+        <a href='edit_question/{{each.ques_num}}/'>Edits</a>
+        <a href='delete_question/{{each.ques_num}}/'>Delete</a><br>
+        {% endfor %}
     </p>
-        
+
     <a href='instructions/' id="instructions">
         <p>Add Instruction</p>
     </a>
-        <p class="instructive_text2">These instructions will be shown to the student before start of exam.</p>
+    <p class="instructive_text2">These instructions will be shown to the student before start of exam.</p>
     <a href='edit/' id="edit">
-            <p>Assignment Settings</p>
+        <p>Assignment Settings</p>
     </a>
 
     <hr>
     <h1> Questions start here </h1>
     <hr>
     {%for each in front%}
-        <center>
-            {{each.que|safe}}<br>
-            <a href="./edit_question/{{each.id}}">Edit</a>
-            <a href="./delete_question/{{each.id}}">Delete</a>
-            <hr>
-        </center>
+    <center>
+        {{each.que|safe}}<br>
+        <h4> Subquestions: </h4> <br>
+        {%for sq in each.subquestions%}
+        {{sq.text}}<br>
+        {{sq.score}} <br>
+        {{sq.explanation}} <br>
+        {{sq.correct}}
+        <br>
+        <br>
+        {%endfor%}
+        <a href="./edit_question/{{each.id}}">Edit</a>
+        <a href="./delete_question/{{each.id}}">Delete</a>
+        <hr>
+    </center>
     {%endfor%}
-    
+
 </body>
+
 </html>

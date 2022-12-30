@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from CreateAssignment.models import Question, CreateLink, Instruction, Profile, Student, QueImg,QueText
+from CreateAssignment.models import Question, CreateLink, Instruction, Profile, Student, QueImg,QueText,SubQuestion
 from django.shortcuts import redirect, render
 import random
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ import json
 
 def randnumber(a,b):
     return random.randint(a,b)
+
 
 @login_required
 def Summary(request,link):
@@ -25,7 +26,7 @@ def Summary(request,link):
                     arr+= str(QueText.objects.filter(id = i["id"]).first().text)+"<br>"
                 else:
                     arr+="<img height = \'100px\' src=\'./../../../../../media/"+str(QueImg.objects.filter(id = i["id"]).first().image)+"\'> <br>"
-            res.append({"que": arr,"id":question.id})
+            res.append({"que": arr,"id":question.id,"subquestions": SubQuestion.objects.filter(question_id = question.id).all()})
         return render(request,"CreateAssignment/summary.html",{"front":res})
     else:
         return JsonResponse({"status":"not doing"})
