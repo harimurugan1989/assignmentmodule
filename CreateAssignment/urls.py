@@ -27,4 +27,5 @@ urlpatterns = [
     path('<slug:link>/edit_question/<int:qno>/delete-it',QuestionDeleteBox ,name='add-question-image'),
     path('<slug:link>/delete_question/<int:qno>/',QuestionDelete ,name='CreateAssignment-delete_question'),
     path('<slug:link>/assignment/',TakeAssignment,name='CreateAssignment-assignment'),
+    path('<slug:link>/sinstructions',TimeChecker,name='test-Instruction'),
 ]
