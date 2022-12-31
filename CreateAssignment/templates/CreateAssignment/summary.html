@@ -93,11 +93,12 @@
         questions[i].style.display = "none";
     }
 
-    let msg = document.getElementById("msg");
     let btns = document.getElementsByClassName("btn");
+    questions[0].style.display = "block";
+    btns[0].style.backgroundColor = "aqua";
     for (let i = 0; i < btns.length; i++) {
         btns[i].addEventListener("click", function () {
-            // console.log(i);
+            // console.log(i); 
             for (let j = 0; j < questions.length; j++) {
                 questions[j].style.display = "none";
             }
