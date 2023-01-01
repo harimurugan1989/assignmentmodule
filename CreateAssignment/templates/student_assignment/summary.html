@@ -18,6 +18,9 @@
         .question {
             margin: auto;
         }
+        img{
+            height: 100px;
+        }
 
         .btn {
             background-color: antiquewhite;
@@ -38,17 +41,24 @@
 
     <div id="tab-btns">
     </div>
-
+    <!-- {{front}} -->
     {%for each in front%}
     <div class=question>
 
-        {{each.que|safe}}<br>
+        {% for it in each.que %}
+            {%if it.type == 't'%}
+                {{it.text}}
+            {%else%}
+                <img src="{{it.url}}" alt="no_img">
+            {%endif%}
+            <br>
+        {%endfor%}
         <h4> Subquestions: </h4> <br>
         {%for sq in each.subquestions%}
         <hr>
         {{sq.text}}<br>
         {{sq.score}} <br>
-        <input type="text" name = "answer" placeholder = "answer here">
+        <input type="text" name="answer" placeholder="answer here">
         <br>
         <br>
         {%endfor%}
@@ -56,7 +66,7 @@
     </div>
     {%endfor%}
 
-    <button type ="button">Save</button>
+    <button type="button">Save</button>
 </body>
 <script>
     let questions = document.getElementsByClassName("question");
