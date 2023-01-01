@@ -106,6 +106,7 @@
                 <textarea name="explanation" cols="30" rows="10"
                     placeholder='explanation'>{{subquestion.explanation}}</textarea>
                 <input type="number" name="score" value="{{subquestion.score}}" placeholder='score'>
+                <input type="number" name="tollerance" value="{{subquestion.tollerance}}" placeholder='tollerance in %age'>
                 <br>
             </div>
 
@@ -230,12 +231,14 @@
                         let answer = document.getElementsByName("answer");
                         let explanation = document.getElementsByName("explanation");
                         let score = document.getElementsByName("score");
+                        let tollerance = document.getElementsByName("tollerance");
                         let arr = [];
                         for (let i = 0; i < leng; i++) {
                             ids[i].innerText = ids[i].value;
                             text[i].innerText = text[i].value;
                             answer[i].innerText = answer[i].value;
                             explanation[i].innerText = explanation[i].value;
+                            tollerance[i].innerText = tollerance[i].value;
                             arr.push(score[i].value);
                         }
 
@@ -250,6 +253,7 @@
                         <textarea name="answer"  cols="30" rows="10" placeholder = 'Correct Answer here'></textarea>
                         <textarea name="explanation"  cols="30" rows="10" placeholder = 'explanation'></textarea>
                         <input type= "number" name="score" value="1" placeholder = 'score' >
+                        <input type= "number" name="tollerance" value="2.0" placeholder = 'tollerance in %age' >
                         <br>
                     </div>`;
 
@@ -356,6 +360,7 @@
         let answer = document.getElementsByName("answer");
         let explanation = document.getElementsByName("explanation");
         let score = document.getElementsByName("score");
+        let tollerance = document.getElementsByName("tollerance");
 
 
         // subquestion part
@@ -366,6 +371,7 @@
             temp["answer"] = answer[i].value;
             temp["explanation"] = explanation[i].value;
             temp["score"] = score[i].value;
+            temp["tollerance"] = tollerance[i].value;
             subquestions.push(temp);
         }
 
