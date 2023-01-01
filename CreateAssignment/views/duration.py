@@ -1,15 +1,7 @@
 import datetime 
-from django.contrib import messages
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User
-from CreateAssignment.models import Question, CreateLink, Instruction, Profile, Student
-from django.shortcuts import redirect, render
-import random
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 import datetime
 import pytz
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 

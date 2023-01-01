@@ -1,9 +1,8 @@
 from django.http import JsonResponse
-from CreateAssignment.models import Question, CreateLink, Instruction, Profile, Student, QueImg,QueText,SubQuestion
-from django.shortcuts import redirect, render
+from CreateAssignment.models import Question, CreateLink, Profile, QueImg,QueText,SubQuestion
+from django.shortcuts import render
 import random
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 import json
 
 

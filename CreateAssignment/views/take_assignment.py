@@ -1,4 +1,4 @@
-from CreateAssignment.models import Question, CreateLink, Student
+from CreateAssignment.models import Question, CreateLink
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 

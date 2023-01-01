@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aim2Crack-Assignment</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .question {
+            margin: auto;
+        }
+
+        .btn {
+            background-color: antiquewhite;
+            padding: 10px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <h1> Questions start here </h1>
+    <hr>
+
+    <div id="tab-btns">
+    </div>
+
+    {%for each in front%}
+    <div class=question>
+
+        {{each.que|safe}}<br>
+        <h4> Subquestions: </h4> <br>
+        {%for sq in each.subquestions%}
+        <hr>
+        {{sq.text}}<br>
+        {{sq.score}} <br>
+        <input type="text" name = "answer" placeholder = "answer here">
+        <br>
+        <br>
+        {%endfor%}
+        <hr>
+    </div>
+    {%endfor%}
+
+    <button type ="button">Save</button>
+</body>
+<script>
+    let questions = document.getElementsByClassName("question");
+    let container = document.getElementById("tab-btns");
+    let txt = "";
+    for (let i = 0; i < questions.length; i++) {
+        txt += "<button type = 'button' class = 'btn' >" + String(i) + " </button> \n";
+    }
+    container.innerHTML = txt;
+
+    for (let i = 0; i < questions.length; i++) {
+        questions[i].style.display = "none";
+    }
+
+    let btns = document.getElementsByClassName("btn");
+    questions[0].style.display = "block";
+    btns[0].style.backgroundColor = "aqua";
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function () {
+            // console.log(i); 
+            for (let j = 0; j < questions.length; j++) {
+                questions[j].style.display = "none";
+            }
+            questions[i].style.display = "block";
+
+            for (let j = 0; j < btns.length; j++) {
+                btns[j].style.backgroundColor = "antiquewhite";
+            }
+            btns[i].style.backgroundColor = "aqua";
+
+        });
+    }
+
+</script>
+
+</html>

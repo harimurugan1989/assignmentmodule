@@ -1,6 +1,5 @@
-from re import sub
 from django.http import JsonResponse
-from CreateAssignment.models import Question, SubQuestion, question
+from CreateAssignment.models import SubQuestion
 
 
 def SubQuestionAdd(request,link,qno):
