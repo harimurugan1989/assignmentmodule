@@ -11,3 +11,4 @@ class SubQuestion(models.Model):
     answer = models.TextField()
     explanation = models.TextField()
     score = models.IntegerField(default=1)
+    tollerance = models.FloatField(default=2)

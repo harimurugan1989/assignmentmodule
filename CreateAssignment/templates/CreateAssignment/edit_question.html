@@ -31,6 +31,16 @@
         img {
             margin: auto;
         }
+
+        .sec {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .random {
+            display: flex;
+        }
     </style>
 </head>
 
@@ -52,8 +62,30 @@
         <br>
 
 
+        <hr>
 
-        <img id='ig' src="" alt="">
+        <div class="random_section">
+            <span id="msg_ran"></span>
+            <div class="sec">
+                <input type="text" name="min_val" placeholder="min_val">
+                <input type="text" name="max_val" placeholder="max_val">
+                <button type="button" id="generate_random">
+                    Generate Random
+                </button>
+            </div>
+            <div class="randoms">
+                {%for random in randoms%}
+                <div class="random">
+                    var_num : <span class="var-num">{{random.var_number}} </span>
+                    <input type="text" name="minVal" placeholder="min_val" value={{random.min_num}}>
+                    <input type="text" name="maxVal" placeholder="max_val" value={{random.max_num}}>
+                    <button type="button" class="delete_random">Delete_Variable</button>
+                </div>
+                {%endfor%}
+            </div>
+            <button type="button" id="update_random">Update Variables</button>
+        </div>
+        <hr>
 
         <button type="button" id='add_text_question'>Add Text in Question</button>
         <input type="file" name="add_image_question" id="add_img_question" placeholder="Add Image" accept="image/*"
@@ -74,6 +106,7 @@
                 <textarea name="explanation" cols="30" rows="10"
                     placeholder='explanation'>{{subquestion.explanation}}</textarea>
                 <input type="number" name="score" value="{{subquestion.score}}" placeholder='score'>
+                <input type="number" name="tollerance" value="{{subquestion.tollerance}}" placeholder='tollerance in %age'>
                 <br>
             </div>
 
@@ -89,10 +122,100 @@
     <a href="./../../">Back</a>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<!-- <script src="{%static 'assignment/summary.js'%}">
-    
-</script> -->
 <script>
+
+    $("#update_random").click(function () {
+        let min_val = "", max_val = "";
+        mins = document.getElementsByName("minVal");
+        maxs = document.getElementsByName("maxVal");
+        for (let i = 0; i < mins.length; i++) {
+            min_val += "," + mins[i].value;
+            max_val += "," + maxs[i].value;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "./edit-random",
+            data: {
+                "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
+                "min_vals": min_val.substr(1, min_val.length - 1),
+                "max_vals": max_val.substr(1, max_val.length - 1),
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    })
+
+    let dlt_rndm_btns = document.querySelectorAll(".delete_random");
+    for (let i = 0; i < dlt_rndm_btns.length; i++) {
+        dlt_rndm_btns[i].addEventListener("click", (event) => { delete_random(event); });
+    }
+
+    function delete_random(event) {
+        var index = -1
+        var randoms, random;
+        if (event.target.tagName === 'BUTTON') {
+            const button = event.target;
+            random = button.parentNode;
+            randoms = random.parentNode;
+            index = Array.prototype.indexOf.call(randoms.children, random);
+        }
+        $.ajax(
+            {
+                type: "POST",
+                url: "./delete-random",
+                data: {
+                    "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
+                    "var_num": index + 1,
+                },
+                success: function (data) {
+                    if (data["status"] == true) {
+                        randoms.removeChild(random);
+                    }
+                }
+            }
+        )
+    };
+
+    $('#generate_random').click(function () {
+        $.ajax(
+            {
+                type: "POST",
+                url: "./generate-random",
+                data: {
+                    "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
+                    "min_val": document.getElementsByName("min_val")[0].value,
+                    "max_val": document.getElementsByName("max_val")[0].value,
+                },
+                success: function (data) {
+                    if (data["status"] == true) {
+                        let randoms = document.getElementsByClassName("randoms")[0].innerHTML
+                        let add = `
+                        <div class = "random">
+                            var_num : ${data["var_num"]}
+                            <input type="text" name="min_val" placeholder="min_val" value = ${data["min_val"]} >
+                            <input type="text" name="max_val" placeholder="max_val" value = ${data["max_val"]}>
+                            <button type="button" class="delete_random">Delete_Variable</button>   
+                            </div>
+                            `
+                        $(".randoms")[0].innerHTML = randoms + add;
+                        let it = document.getElementsByClassName("delete_random");
+                        for (let i = 0; i < it.length; i++) {
+                            it[i].addEventListener("click", (event) => {
+                                delete_random(event, i);
+                            });
+
+                        }
+                        console.log("some it: ", it[it.length - 1]);
+
+                    } else {
+                        document.getElementById("msg_ran").innerText = data["msg"]
+                    }
+                }
+            })
+    })
+
     $('#add_sub_question').click(function () {
         $.ajax(
             {
@@ -108,19 +231,21 @@
                         let answer = document.getElementsByName("answer");
                         let explanation = document.getElementsByName("explanation");
                         let score = document.getElementsByName("score");
+                        let tollerance = document.getElementsByName("tollerance");
                         let arr = [];
                         for (let i = 0; i < leng; i++) {
                             ids[i].innerText = ids[i].value;
                             text[i].innerText = text[i].value;
                             answer[i].innerText = answer[i].value;
                             explanation[i].innerText = explanation[i].value;
+                            tollerance[i].innerText = tollerance[i].value;
                             arr.push(score[i].value);
                         }
 
 
 
                         already = document.getElementById("subquestions").innerHTML;
-                        addone = ` 
+                        let addone = ` 
                     <hr>
                     <div class="subquestion">
                         <input type="hidden" name = "sq_id" value= "${data.id}">
@@ -128,6 +253,7 @@
                         <textarea name="answer"  cols="30" rows="10" placeholder = 'Correct Answer here'></textarea>
                         <textarea name="explanation"  cols="30" rows="10" placeholder = 'explanation'></textarea>
                         <input type= "number" name="score" value="1" placeholder = 'score' >
+                        <input type= "number" name="tollerance" value="2.0" placeholder = 'tollerance in %age' >
                         <br>
                     </div>`;
 
@@ -234,6 +360,7 @@
         let answer = document.getElementsByName("answer");
         let explanation = document.getElementsByName("explanation");
         let score = document.getElementsByName("score");
+        let tollerance = document.getElementsByName("tollerance");
 
 
         // subquestion part
@@ -244,6 +371,7 @@
             temp["answer"] = answer[i].value;
             temp["explanation"] = explanation[i].value;
             temp["score"] = score[i].value;
+            temp["tollerance"] = tollerance[i].value;
             subquestions.push(temp);
         }
 

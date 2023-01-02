@@ -13,6 +13,7 @@ def SubQuestionSave(request,link,qno):
             sq.answer = i["answer"]
             sq.explanation = i["explanation"]
             sq.score = int(i["score"])
+            sq.tollerance = float(i["tollerance"])
             sq.save()
         que = Question.objects.filter(id = qno).first()
         i,j = 0,0

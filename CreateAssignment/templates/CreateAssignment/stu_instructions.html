@@ -9,19 +9,72 @@
         h2,h1 {text-align: center;}
         p {text-align: center;}
     </style>
+    
 </head>
 <body>
-    {{user.username}}
+    <!-- {{user.username}} -->
+ 
+    {{msg}}
+ 
     <h1>{{assign.assignment_name}}</h1>
     <p>Start time: {{assign.start}}<br><br>
-    No. of questions: {{noq}}</p>
+    <!-- No. of questions: {{noq}}</p> -->
     <h2>Instructions to Students</h2>
-    {% for line in lines %}
+    {% for line in inst %}
     <p>{{line}}</p> 
-    {% endfor %}
+    {% endfor %} 
+
+    {%if time%}
+    <br>
+    <div style = "display:flex;" id = "start_timer">
+    
+    </div>
+    {%endif%}
+    {%if endtime%}
+        <!-- <p class="lines" id = "bnd" style="color: #c71212;">
+        <i class='bx bxs-right-arrow' ></i> -->
+        This assignment link will close in : <span id = "the_timer" ></span>
+        {%ifequal request.user.profile.type 's'%}
+            <form method=POST class="btn">            
+                {%csrf_token%}
+                <button type="submit" id="start_btn">Go to Assignment</button>
+            </form>
+        {%else%}
+            <a href="./"  class="btn-back" >Go Back</a>
+        {%endifequal%}
+{%endif%}
+<!--     
     <div style="text-align:center">
         <a href="assignment/">Start Assignment</a>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
-    </div>
+    </div> -->
    
 </body>
+<script>
+    var dest2 = new Date("{{time}}{{endtime}}").getTime();
+    var x2 = setInterval(function() {
+    var now2 = new Date().getTime();
+
+    var diff2 = dest2 - now2 ;
+        
+    var days2 = Math.floor(diff2 / (1000*60*60*24));
+    var hours2 = Math.floor((diff2 % (1000*60*60*24))/(1000*60*60));
+    var minutes2 = Math.floor((diff2 % (1000*60*60))/(1000*60));
+    var seconds2 = Math.floor((diff2 % (1000*60))/1000);
+    console.log(days2)
+        
+    {%if endtime%}
+    if(diff2 < 432000000 && seconds2>0){
+        document.getElementById("the_timer").innerHTML= days2 +"d: " + hours2 + "h: " + minutes2 + "m: " + seconds2 + "s"
+        document.getElementById("bnd").style.display = "block";                                      
+        }
+    {%endif%}
+    {%if time%}
+         document.getElementById("start_timer").innerHTML= days2 +"d: " + hours2 + "h: " + minutes2 + "m: " + seconds2 + "s"
+    {%endif%}
+  if(Math.floor(diff2/1000)<=0){
+         clearInterval(x2);
+        location.reload();
+           }
+},1000);
+    </script>
 </html>

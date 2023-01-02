@@ -1,11 +1,6 @@
-import datetime 
-from django.contrib import messages
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User
 from CreateAssignment.models import Question, CreateLink, QueText
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 
 
 @login_required

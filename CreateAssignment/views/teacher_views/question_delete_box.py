@@ -1,15 +1,6 @@
-import datetime 
-from django.contrib import messages
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User
-from CreateAssignment.models import Question, CreateLink, QueText, QueImg
-from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from CreateAssignment.models import Question, QueText, QueImg
 from django.http import JsonResponse
 import json
-import os
-from backend import settings
 
 
 def QuestionDeleteBox(request,link,qno):

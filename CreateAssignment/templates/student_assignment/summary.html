@@ -19,6 +19,10 @@
             margin: auto;
         }
 
+        img {
+            height: 100px;
+        }
+
         .btn {
             background-color: antiquewhite;
             padding: 10px;
@@ -33,54 +37,58 @@
     <div class="alert alert-{{ message.tags }}">{{ message }}</div>
     {% endfor %}
     {% endif %}
-    <h1>{{assign.assignment_name}}</h1>
-    <a href='questions/' id="questions">
-        <p>Add Question</p>
-    </a>
-    <p>
-        {% for each in content.questions %}
-        {{each.ques_num}}.&nbsp;{{ each.question }}
-        <a href='edit_question/{{each.ques_num}}/'>Edits</a>
-        <a href='delete_question/{{each.ques_num}}/'>Delete</a><br>
-        {% endfor %}
-    </p>
-
-    <a href='instructions/' id="instructions">
-        <p>Add Instruction</p>
-    </a>
-    <p class="instructive_text2">These instructions will be shown to the student before start of exam.</p>
-    <a href='edit/' id="edit">
-        <p>Assignment Settings</p>
-    </a>
-
-    <hr>
     <h1> Questions start here </h1>
     <hr>
 
     <div id="tab-btns">
     </div>
 
+    {%csrf_token%}
     {%for each in front%}
     <div class=question>
 
-        {{each.que|safe}}<br>
+        {% for it in each.que %}
+        {%if it.type == 't'%}
+        {{it.text}}
+        {%else%}
+        <img src="{{it.url}}" alt="no_img">
+        {%endif%}
+        <br>
+        {%endfor%}
         <h4> Subquestions: </h4> <br>
         {%for sq in each.subquestions%}
+        <hr>
         {{sq.text}}<br>
         {{sq.score}} <br>
-        {{sq.explanation}} <br>
-        {{sq.correct}}
+        <input type="text" name="answer" placeholder="answer here">
+        <input type="hidden" name="sq-id" value="{{sq.id}}">
         <br>
         <br>
         {%endfor%}
-        <a href="./edit_question/{{each.id}}">Edit</a>
-        <a href="./delete_question/{{each.id}}">Delete</a>
         <hr>
+        <button type="button" class = "save">Save</button>
     </div>
     {%endfor%}
 
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script>
+    $('.save').click(()=>{
+        $.ajax({
+            type: "POST",
+            url: "./save-answer",
+            data: {
+                "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    })
+
+
+
     let questions = document.getElementsByClassName("question");
     let container = document.getElementById("tab-btns");
     let txt = "";
