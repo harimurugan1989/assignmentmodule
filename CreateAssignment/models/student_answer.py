@@ -11,4 +11,4 @@ class StudentAnswer(models.Model):
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
     subquestion = models.ForeignKey(SubQuestion,on_delete= models.CASCADE)
     answer = models.TextField()
-    score = models.IntegerField()
+    score = models.IntegerField(default  = 0)

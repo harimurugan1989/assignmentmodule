@@ -18,7 +18,8 @@
         .question {
             margin: auto;
         }
-        img{
+
+        img {
             height: 100px;
         }
 
@@ -41,17 +42,18 @@
 
     <div id="tab-btns">
     </div>
-    <!-- {{front}} -->
+
+    {%csrf_token%}
     {%for each in front%}
     <div class=question>
 
         {% for it in each.que %}
-            {%if it.type == 't'%}
-                {{it.text}}
-            {%else%}
-                <img src="{{it.url}}" alt="no_img">
-            {%endif%}
-            <br>
+        {%if it.type == 't'%}
+        {{it.text}}
+        {%else%}
+        <img src="{{it.url}}" alt="no_img">
+        {%endif%}
+        <br>
         {%endfor%}
         <h4> Subquestions: </h4> <br>
         {%for sq in each.subquestions%}
@@ -59,16 +61,34 @@
         {{sq.text}}<br>
         {{sq.score}} <br>
         <input type="text" name="answer" placeholder="answer here">
+        <input type="hidden" name="sq-id" value="{{sq.id}}">
         <br>
         <br>
         {%endfor%}
         <hr>
+        <button type="button" class = "save">Save</button>
     </div>
     {%endfor%}
 
-    <button type="button">Save</button>
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script>
+    $('.save').click(()=>{
+        $.ajax({
+            type: "POST",
+            url: "./save-answer",
+            data: {
+                "csrfmiddlewaretoken": document.getElementsByName("csrfmiddlewaretoken")[0].value,
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    })
+
+
+
     let questions = document.getElementsByClassName("question");
     let container = document.getElementById("tab-btns");
     let txt = "";

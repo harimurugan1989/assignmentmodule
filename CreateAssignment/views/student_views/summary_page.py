@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from CreateAssignment.models import Question, CreateLink, Profile, QueImg,QueText,SubQuestion, StudentRandom, RandomNumber
+from CreateAssignment.models import Question, CreateLink, Profile, QueImg,QueText,SubQuestion, StudentRandom, RandomNumber, StudentAnswer
 from django.shortcuts import render
 import random
 from django.contrib.auth.decorators import login_required
@@ -25,6 +25,20 @@ def create_random (user, question):
         randoms.randoms = json.dumps(re)
         randoms.save()
     return randoms
+
+def create_student_answer(user,subquestion,assignment):
+    answer = StudentAnswer.objects.filter(user = user).filter(subquestion_id = subquestion).first()
+    if answer == None:
+        answer = StudentAnswer.objects.create(
+            user = user,
+            link = assignment,
+            question_id = subquestion.question_id, 
+            subquestion = subquestion,
+            answer = "",
+            score = 0
+            ) 
+    return answer
+
 
                 
 
