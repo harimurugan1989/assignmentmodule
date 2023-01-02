@@ -32,5 +32,6 @@ urlpatterns = [
     path('<slug:link>/sinstructions',TimeChecker,name='test-Instruction'),
 
     #Student side urls
-    path('<slug:link>/view/',StudentSummary,name = 'student-summary')
+    path('<slug:link>/view/',StudentSummary,name = 'student-summary'),
+    path('<slug:link>/view/save-answer',SaveStudentAnswer,name = 'save-student-summary'),
 ]
