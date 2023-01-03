@@ -8,7 +8,7 @@ import json
 def SaveStudentAnswer(request,link):
     assignment = CreateLink.objects.filter(link = link).first()
     data = json.loads(request.POST["data"])
-    # print(data[0]["answer"])
+    score = 0
     for each in data:
         student_answer = StudentAnswer.objects.filter(subquestion_id = each["sq_id"]).first()
         sq = student_answer.subquestion
@@ -23,15 +23,27 @@ def SaveStudentAnswer(request,link):
             correct_answer = eval(ra)
             ma = float(each["answer"])
             if float(abs(abs(correct_answer-ma)*100/ma)) <= float(sq.tollerance):
-                student_score = StudentScore.objects.filter(user=request.user).filter(link  = assignment).first()
+                student_score = StudentScore.objects.filter(user = request.user).filter(link  = assignment).first()
                 student_score.score += (sq.score-student_answer.score)
+                score = student_score.score
                 student_score.save()
                 student_answer.score = sq.score
+                student_answer.save()
+            else:
+                if student_answer.score != 0:
+                    student_score = StudentScore.objects.filter(user = request.user).filter(link  = assignment).first()
+                    student_score.score -= (student_answer.score)
+                    score = student_score.score
+                    student_score.save()
+                student_answer.score = 0
+                student_answer.save()
+            student_answer.save()
         except:
             pass
         student_answer.save()
     return JsonResponse({
         "status": True,
+        "score": score,
     })
 
 '''
