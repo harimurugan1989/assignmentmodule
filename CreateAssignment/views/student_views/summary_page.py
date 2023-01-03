@@ -1,43 +1,21 @@
 from django.http import JsonResponse
-from CreateAssignment.models import Question, CreateLink, Profile, QueImg,QueText,SubQuestion, StudentRandom, RandomNumber, StudentAnswer
+from CreateAssignment.models import *
 from django.shortcuts import render
 import random
 from django.contrib.auth.decorators import login_required
 import json
+# from CreateAssignment.views import create_student_score,create_random,create_student_answer
+
+from .random_create import create_random
+from .answers_create import create_student_answer
+from .score_create import create_student_score
 
 
 def randnumber(a,b):
     return random.randint(a,b)
 
-def create_random (user, question):
-    randoms = StudentRandom.objects.filter(question = question).filter(user = user).first()
-    if randoms == None:
-        randoms = StudentRandom.objects.create(question = question,user = user,randoms = "")
-        random_data = RandomNumber.objects.filter(question = question).all()
-        re = []
-        for i in range(len(random_data)):
-            re.append(-1)
-        for i in range(len(random_data)):
-            if random_data[i].integers_only:
-                re[random_data[i].var_number-1] = random.randint(random_data[i].min_num,random_data[i].max_num)
-            else:
-                re[random_data[i].var_number-1] = round(random.uniform(random_data[i].min_num,random_data[i].max_num),4)
-        randoms.randoms = json.dumps(re)
-        randoms.save()
-    return randoms
 
-def create_student_answer(user,subquestion,assignment):
-    answer = StudentAnswer.objects.filter(user = user).filter(subquestion_id = subquestion).first()
-    if answer == None:
-        answer = StudentAnswer.objects.create(
-            user = user,
-            link = assignment,
-            question_id = subquestion.question_id, 
-            subquestion = subquestion,
-            answer = "",
-            score = 0
-            ) 
-    return answer
+
 
 
                 
@@ -47,6 +25,7 @@ def StudentSummary(request,link):
     user_type = Profile.objects.filter(user = request.user).first().type
     if user_type == 't':
         assignment = CreateLink.objects.filter(link = link).first()
+        score = create_student_score(request.user,assignment).score
         questions_id = assignment.id
         questions = Question.objects.filter(assignment_id = questions_id).all()
         res = []
@@ -70,6 +49,7 @@ def StudentSummary(request,link):
                     })
             subquestions = SubQuestion.objects.filter(question_id = question.id).all()
             for subquestion in subquestions:
+                subquestion.correct = create_student_answer(request.user,subquestion,assignment).answer
                 txt = str(subquestion.text)
                 for j in range(len(randoms)):
                     txt = txt.replace("<var"+str(j+1)+">",str(randoms[j]))
@@ -79,7 +59,7 @@ def StudentSummary(request,link):
                     "que": que,
                     "subquestions": subquestions,
                 })
-        return render(request,"student_assignment/summary.html",{"front":res})
+        return render(request,"student_assignment/summary.html",{"front":res,"score":score})
     else:
         return JsonResponse({"status":"not doing"})
 
